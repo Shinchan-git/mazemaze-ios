@@ -23,6 +23,7 @@ class AuthManager {
     }
     
     static func signInWithGoogle(viewController: UIViewController) {
+        if isLoggedIn() { return }
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
         

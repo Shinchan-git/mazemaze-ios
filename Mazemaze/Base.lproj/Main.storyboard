@@ -62,7 +62,7 @@
                                     <constraint firstAttribute="height" constant="40" id="lZo-mi-hsE"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="onGoogleSignIn" destination="gdH-5f-xtK" eventType="touchUpInside" id="Y6H-KJ-noy"/>
+                                    <action selector="onGoogleSignInButton" destination="gdH-5f-xtK" eventType="touchUpInside" id="jOZ-fm-heq"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -107,7 +107,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="ログアウト"/>
                                 <connections>
-                                    <action selector="onSignOut" destination="jiL-Uz-irA" eventType="touchUpInside" id="YDc-bq-UGV"/>
+                                    <action selector="onSignOutButton" destination="jiL-Uz-irA" eventType="touchUpInside" id="3Wi-Jw-ePP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -122,11 +122,28 @@
                     <connections>
                         <outlet property="loginButton" destination="0zB-qs-Fwe" id="W90-w9-7I3"/>
                         <outlet property="signOutButton" destination="C8b-UP-pMA" id="YhC-50-77Y"/>
+                        <segue destination="LAk-Y1-b7K" kind="presentation" identifier="toSettingView" id="UZ5-Wd-BvS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cof-lb-Yjq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1806.1538461538462" y="888.62559241706163"/>
+        </scene>
+        <!--Setting View Controller-->
+        <scene sceneID="bk2-Zd-T6t">
+            <objects>
+                <viewController id="aY0-IS-bmX" customClass="SettingViewController" customModule="Mazemaze" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lJS-5d-15O">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="kyx-yB-RN2"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="2aO-R9-DwU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tYs-TR-z7i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3852.3076923076924" y="1660.6635071090047"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Czn-wN-CRr">
@@ -203,9 +220,27 @@
             </objects>
             <point key="canvasLocation" x="2713.8461538461538" y="-570.14218009478668"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="y5b-MV-1KJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LAk-Y1-b7K" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="irm-tS-b15">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="aY0-IS-bmX" kind="relationship" relationship="rootViewController" id="bHa-1E-RGc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S9G-gm-VRF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2921.5384615384614" y="1660.6635071090047"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="dZq-Mq-dla"/>
+        <segue reference="PCi-HX-9Oy"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="books.vertical.fill" catalog="system" width="128" height="109"/>

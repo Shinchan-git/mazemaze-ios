@@ -19,13 +19,13 @@ class LoginViewController: UIViewController {
         setupGoogleSignInButton()
     }
     
-    @IBAction func onGoogleSignIn() {
+    @IBAction func onGoogleSignInButton() {
         AuthManager.signInWithGoogle(viewController: self)
     }
     
     func setupNavBar() {
         self.navigationItem.title = "ログイン"
-        let backButton = UIBarButtonItem(title: "キャンセル", style: .plain, target: self, action: #selector(cancel))
+        let backButton = UIBarButtonItem(title: "キャンセル", style: .plain, target: self, action: #selector(onCancelButton))
         self.navigationItem.leftBarButtonItem = backButton
     }
     
@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
         googleSignInButton.style = .wide
     }
     
-    @objc func cancel() {
+    @objc func onCancelButton() {
         self.dismiss(animated: true)
     }
     

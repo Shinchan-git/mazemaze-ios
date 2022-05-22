@@ -27,12 +27,17 @@ class MyListViewController: UIViewController {
         }
     }
     
-    @IBAction func onSignOut() {
+    @IBAction func onSignOutButton() {
         AuthManager.signOut()
     }
     
     func setupNavBar() {
         self.navigationItem.title = "マイリスト"
+        let settingButton = UIBarButtonItem(title: "設定", style: .plain, target: self, action: #selector(onSettingButton))
+        self.navigationItem.rightBarButtonItem = settingButton
     }
     
+    @objc func onSettingButton() {
+        self.performSegue(withIdentifier: "toSettingView", sender: nil)
+    }
 }
