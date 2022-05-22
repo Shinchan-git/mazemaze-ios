@@ -1,24 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="v1q-iP-ZOd">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Recommended View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="RecommendedViewController" customModule="Mazemaze" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wIb-7s-knw">
+                                <rect key="frame" x="145" y="402" width="100" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Llj-Tu-JHb"/>
+                                    <constraint firstAttribute="height" constant="40" id="j21-2V-aQD"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="ログイン"/>
+                                <connections>
+                                    <segue destination="fNr-Wr-Vkk" kind="presentation" modalPresentationStyle="fullScreen" id="PCi-HX-9Oy"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wIb-7s-knw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="0Ix-40-CaD"/>
+                            <constraint firstItem="wIb-7s-knw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="6eB-El-mfU"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="iMb-b6-ODq"/>
+                    <connections>
+                        <outlet property="loginButton" destination="wIb-7s-knw" id="CrZ-cu-1Uq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1806.1538461538462" y="140.75829383886256"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="NqR-bZ-SbG">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MhM-NT-2wi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="gdH-5f-xtK" customClass="LoginViewController" customModule="Mazemaze" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cnd-QC-D7m">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ltj-tm-Zz6" customClass="GIDSignInButton">
+                                <rect key="frame" x="85" y="402" width="220" height="40"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="220" id="evf-VS-7fF"/>
+                                    <constraint firstAttribute="height" constant="40" id="lZo-mi-hsE"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="onGoogleSignIn" destination="gdH-5f-xtK" eventType="touchUpInside" id="Y6H-KJ-noy"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="REe-az-TaA"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ltj-tm-Zz6" firstAttribute="centerX" secondItem="cnd-QC-D7m" secondAttribute="centerX" id="7zm-S9-rbF"/>
+                            <constraint firstItem="ltj-tm-Zz6" firstAttribute="centerY" secondItem="cnd-QC-D7m" secondAttribute="centerY" id="FpT-KV-2mx"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="tPg-fN-S22"/>
+                    <connections>
+                        <outlet property="googleSignInButton" destination="ltj-tm-Zz6" id="CQV-ek-G8o"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="3643.0769230769229" y="-570.14218009478668"/>
+        </scene>
+        <!--My List View Controller-->
+        <scene sceneID="Ubg-Pd-Ojj">
+            <objects>
+                <viewController id="jiL-Uz-irA" customClass="MyListViewController" customModule="Mazemaze" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gvc-kM-EZT">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zB-qs-Fwe">
+                                <rect key="frame" x="145" y="402" width="100" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="EZl-2g-SJV"/>
+                                    <constraint firstAttribute="width" constant="100" id="TIA-Kj-6VK"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="ログイン"/>
+                                <connections>
+                                    <segue destination="fNr-Wr-Vkk" kind="presentation" modalPresentationStyle="fullScreen" id="dZq-Mq-dla"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8b-UP-pMA">
+                                <rect key="frame" x="131" y="639" width="96" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="ログアウト"/>
+                                <connections>
+                                    <action selector="onSignOut" destination="jiL-Uz-irA" eventType="touchUpInside" id="YDc-bq-UGV"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vmS-Qz-Ndu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0zB-qs-Fwe" firstAttribute="centerY" secondItem="gvc-kM-EZT" secondAttribute="centerY" id="iRb-yF-zXW"/>
+                            <constraint firstItem="0zB-qs-Fwe" firstAttribute="centerX" secondItem="gvc-kM-EZT" secondAttribute="centerX" id="rcw-6h-5La"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="h1M-Er-PsK"/>
+                    <connections>
+                        <outlet property="loginButton" destination="0zB-qs-Fwe" id="W90-w9-7I3"/>
+                        <outlet property="signOutButton" destination="C8b-UP-pMA" id="YhC-50-77Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cof-lb-Yjq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1806.1538461538462" y="888.62559241706163"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Czn-wN-CRr">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="v1q-iP-ZOd" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dEJ-tI-QpT">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="wng-MX-4TY" kind="relationship" relationship="viewControllers" id="283-1d-qch"/>
+                        <segue destination="jbp-06-9MY" kind="relationship" relationship="viewControllers" id="wwZ-mB-Rfi"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J54-r5-dNO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-52.307692307692307" y="140.75829383886256"/>
+        </scene>
+        <!--おすすめ-->
+        <scene sceneID="s0G-Ce-Sxb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wng-MX-4TY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="おすすめ" image="heart.text.square.fill" catalog="system" id="aDb-ZP-oQV"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="omB-gb-N5D">
+                        <rect key="frame" x="0.0" y="44" width="390" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="j24-bI-Fjt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o5o-9r-QSR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="876.92307692307691" y="140.75829383886256"/>
+        </scene>
+        <!--マイリスト-->
+        <scene sceneID="B5c-YQ-JUn">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jbp-06-9MY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="マイリスト" image="books.vertical.fill" catalog="system" id="BUe-YJ-WXk"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="XdH-aX-dtj">
+                        <rect key="frame" x="0.0" y="44" width="390" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="jiL-Uz-irA" kind="relationship" relationship="rootViewController" id="uXX-lh-Nt9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LLn-t8-2Cx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="876.92307692307691" y="888.62559241706163"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="CkZ-RI-zW4">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZFi-SI-iRJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fNr-Wr-Vkk" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rOw-lm-mIo">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="gdH-5f-xtK" kind="relationship" relationship="rootViewController" id="kjq-Eh-Anf"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="2713.8461538461538" y="-570.14218009478668"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="dZq-Mq-dla"/>
+    </inferredMetricsTieBreakers>
+    <resources>
+        <image name="books.vertical.fill" catalog="system" width="128" height="109"/>
+        <image name="heart.text.square.fill" catalog="system" width="128" height="114"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
