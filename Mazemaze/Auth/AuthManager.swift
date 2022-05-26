@@ -12,37 +12,33 @@ import GoogleSignIn
 
 class AuthManager {
     
-    static func isLoggedIn() -> Bool {
-        if let uid = Auth.auth().currentUser?.uid {
-            print("uid: \(uid)")
-            return true
-        } else {
-            print("Not logged in")
-            return false
-        }
+    static func userId() -> String? {
+        return Auth.auth().currentUser?.uid
     }
     
-    static func signInWithGoogle(viewController: UIViewController) {
-        if isLoggedIn() { return }
+    static func signInWithGoogle(viewController: UIViewController, completion: @escaping (String) -> Void) {
+        if userId() != nil { return }
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
-        
+
         GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { [unowned viewController] user, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            
-            guard let authentication = user?.authentication,
-                  let idToken = authentication.idToken else { return }
-            
+
+            guard let authentication = user?.authentication, let idToken = authentication.idToken else { return }
+
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-            
+
             Auth.auth().signIn(with: credential) { authResult, error in
                 if let error = error {
                     print(error.localizedDescription)
                 } else {
+                    //Login succeeded
                     print("Successfully logged in")
+                    guard let uid = userId() else { return }
+                    completion(uid)
                     viewController.dismiss(animated: true)
                 }
             }

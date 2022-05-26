@@ -19,7 +19,7 @@ class RecommendedViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if AuthManager.isLoggedIn() {
+        if let _ = AuthManager.userId() {
             loginButton.isHidden = true
         } else {
             loginButton.isHidden = false

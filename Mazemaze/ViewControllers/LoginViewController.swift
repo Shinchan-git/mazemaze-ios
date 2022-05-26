@@ -20,7 +20,23 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func onGoogleSignInButton() {
-        AuthManager.signInWithGoogle(viewController: self)
+        AuthManager.signInWithGoogle(viewController: self) { uid in
+            Task {
+                do {
+                    async let user = UserCRUD.getUser(uid: uid)
+                    if let user = try await user {
+                        //Is returning user
+                        print("Is returning user, id: \(user.id)")
+                    } else {
+                        //Is new user
+                        print("Is new user")
+                        UserCRUD.createUser(user: User(id: uid))
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }
     }
     
     func setupNavBar() {
