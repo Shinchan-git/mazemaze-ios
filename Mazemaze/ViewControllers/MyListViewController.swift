@@ -15,8 +15,8 @@ class MyListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginButton.isHidden = true
         setupNavBar()
+        setupViews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -31,13 +31,22 @@ class MyListViewController: UIViewController {
         AuthManager.signOut()
     }
     
+    @objc func onSettingButton() {
+        self.performSegue(withIdentifier: "toSettingView", sender: nil)
+    }
+}
+
+//UI
+extension MyListViewController {
+    
     func setupNavBar() {
         self.navigationItem.title = "マイリスト"
         let settingButton = UIBarButtonItem(title: "設定", style: .plain, target: self, action: #selector(onSettingButton))
         self.navigationItem.rightBarButtonItem = settingButton
     }
     
-    @objc func onSettingButton() {
-        self.performSegue(withIdentifier: "toSettingView", sender: nil)
+    func setupViews() {
+        loginButton.isHidden = true
     }
+    
 }

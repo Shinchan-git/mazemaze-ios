@@ -15,15 +15,19 @@ class SettingViewController: UIViewController {
         setupNavBar()
     }
     
+    @objc func onCloseButton() {
+        self.dismiss(animated: true)
+    }
 
+}
+
+//UI
+extension SettingViewController {
+    
     func setupNavBar() {
         self.navigationItem.title = "設定"
         let closeButton = UIBarButtonItem(title: "閉じる", style: .plain, target: self, action: #selector(onCloseButton))
         self.navigationItem.rightBarButtonItem = closeButton
     }
     
-    @objc func onCloseButton() {
-        self.dismiss(animated: true)
-    }
-
 }

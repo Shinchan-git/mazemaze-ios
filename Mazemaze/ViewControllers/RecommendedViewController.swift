@@ -17,7 +17,7 @@ class RecommendedViewController: UIViewController {
         super.viewDidLoad()
         
         setupNavBar()
-        loginButton.isHidden = true
+        setupViews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -30,8 +30,17 @@ class RecommendedViewController: UIViewController {
         print("userManager.id: \(userManager.id ?? "")")
     }
     
+}
+
+//UI
+extension RecommendedViewController {
+    
     func setupNavBar() {
         self.navigationItem.title = "おすすめ"
+    }
+    
+    func setupViews() {
+        loginButton.isHidden = true
     }
     
 }
