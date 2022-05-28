@@ -65,17 +65,62 @@
                                     <action selector="onGoogleSignInButton" destination="gdH-5f-xtK" eventType="touchUpInside" id="jOZ-fm-heq"/>
                                 </connections>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uG5-EO-k5L">
+                                <rect key="frame" x="0.0" y="148" width="390" height="120"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="アカウントの表示名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GVP-G0-2fF">
+                                        <rect key="frame" x="16" y="0.0" width="358" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jm1-P7-q4c">
+                                        <rect key="frame" x="16" y="28.666666666666657" width="358" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="niv-ft-ccf"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="knf-OK-lUy">
+                                        <rect key="frame" x="16" y="80" width="358" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="l0d-vG-pe9"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="アカウントを作成する"/>
+                                        <connections>
+                                            <action selector="onCreateAccountButton" destination="gdH-5f-xtK" eventType="touchUpInside" id="Y5d-kH-L3P"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="ESL-oE-2lm"/>
+                                    <constraint firstAttribute="trailing" secondItem="jm1-P7-q4c" secondAttribute="trailing" constant="16" id="PV9-0Z-KIj"/>
+                                    <constraint firstItem="jm1-P7-q4c" firstAttribute="leading" secondItem="uG5-EO-k5L" secondAttribute="leading" constant="16" id="Wzl-rx-mrm"/>
+                                    <constraint firstAttribute="trailing" secondItem="GVP-G0-2fF" secondAttribute="trailing" constant="16" id="b0u-0u-Wen"/>
+                                    <constraint firstItem="GVP-G0-2fF" firstAttribute="leading" secondItem="uG5-EO-k5L" secondAttribute="leading" constant="16" id="qe6-JT-gu3"/>
+                                    <constraint firstItem="knf-OK-lUy" firstAttribute="leading" secondItem="uG5-EO-k5L" secondAttribute="leading" constant="16" id="xTj-Nk-MPS"/>
+                                    <constraint firstAttribute="trailing" secondItem="knf-OK-lUy" secondAttribute="trailing" constant="16" id="ycs-LM-afN"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="REe-az-TaA"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ltj-tm-Zz6" firstAttribute="centerX" secondItem="cnd-QC-D7m" secondAttribute="centerX" id="7zm-S9-rbF"/>
                             <constraint firstItem="ltj-tm-Zz6" firstAttribute="centerY" secondItem="cnd-QC-D7m" secondAttribute="centerY" id="FpT-KV-2mx"/>
+                            <constraint firstItem="uG5-EO-k5L" firstAttribute="top" secondItem="REe-az-TaA" secondAttribute="top" constant="60" id="Pvm-uL-8Bs"/>
+                            <constraint firstItem="uG5-EO-k5L" firstAttribute="leading" secondItem="REe-az-TaA" secondAttribute="leading" id="e10-Cr-I84"/>
+                            <constraint firstItem="REe-az-TaA" firstAttribute="trailing" secondItem="uG5-EO-k5L" secondAttribute="trailing" id="o6f-d8-lU7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tPg-fN-S22"/>
                     <connections>
+                        <outlet property="createAccountButton" destination="knf-OK-lUy" id="Egr-sa-5Kr"/>
                         <outlet property="googleSignInButton" destination="ltj-tm-Zz6" id="CQV-ek-G8o"/>
+                        <outlet property="userNameStackView" destination="uG5-EO-k5L" id="D5S-oe-4Bf"/>
+                        <outlet property="userNameTextField" destination="jm1-P7-q4c" id="SeV-B7-noH"/>
                     </connections>
                 </viewController>
             </objects>
@@ -245,6 +290,9 @@
     <resources>
         <image name="books.vertical.fill" catalog="system" width="128" height="109"/>
         <image name="heart.text.square.fill" catalog="system" width="128" height="114"/>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

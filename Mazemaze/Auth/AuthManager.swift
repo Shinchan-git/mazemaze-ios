@@ -21,7 +21,7 @@ class AuthManager {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
 
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { [unowned viewController] user, error in
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { user, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -36,10 +36,8 @@ class AuthManager {
                     print(error.localizedDescription)
                 } else {
                     //Login succeeded
-                    print("Successfully logged in")
-                    guard let uid = userId() else { return }
+                    guard let uid = authResult?.user.uid else { return }
                     completion(uid)
-                    viewController.dismiss(animated: true)
                 }
             }
         }

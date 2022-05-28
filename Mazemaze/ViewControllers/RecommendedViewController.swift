@@ -11,6 +11,8 @@ class RecommendedViewController: UIViewController {
     
     @IBOutlet var loginButton: UIButton!
     
+    let userManager = UserManager.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,6 +26,8 @@ class RecommendedViewController: UIViewController {
         } else {
             loginButton.isHidden = false
         }
+        
+        print("userManager.id: \(userManager.id ?? "")")
     }
     
     func setupNavBar() {

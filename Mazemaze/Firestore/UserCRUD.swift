@@ -13,7 +13,8 @@ class UserCRUD {
     static func createUser(user: User) {
         let db = Firestore.firestore()
         db.collection("users").document(user.id).setData([
-            "id":user.id,
+            "id": user.id,
+            "name": user.name,
             "iconName": user.iconName,
             "iconColor": user.iconColor,
             "createdPostIds": user.createdPostIds,
@@ -34,14 +35,7 @@ class UserCRUD {
                     continuation.resume(throwing: error)
                 } else {
                     if let document = document, document.exists {
-                        let user = User(
-                            id: document["id"] as! String,
-                            iconName: document["iconName"] as! String,
-                            iconColor: document["iconColor"] as! String,
-                            createdPotIds: document["createdPostIds"] as! [String],
-                            blockUserIds: document["blockUserIds"] as! [String],
-                            version: document["version"] as! Int
-                        )
+                        let user = User(document: document)
                         continuation.resume(returning: user)
                     } else {
                         continuation.resume(returning: nil)

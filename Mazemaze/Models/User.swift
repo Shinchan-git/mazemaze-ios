@@ -6,27 +6,31 @@
 //
 
 import Foundation
+import Firebase
 
 class User {
     
     var id: String
+    var name: String
     var iconName: String = "person.fill"
     var iconColor: String = "262626"
     var createdPostIds: [String] = []
     var blockUserIds: [String] = []
     var version: Int = 1
     
-    init(id: String) {
+    init(id: String, name: String) {
         self.id = id
+        self.name = name
     }
     
-    init(id: String, iconName: String, iconColor: String, createdPotIds: [String], blockUserIds: [String], version: Int) {
-        self.id = id
-        self.iconName = iconName
-        self.iconColor = iconColor
-        self.createdPostIds = createdPotIds
-        self.blockUserIds = blockUserIds
-        self.version = version
+    init(document: DocumentSnapshot) {
+        self.id = document["id"] as? String ?? ""
+        self.name = document["name"] as? String ?? ""
+        self.iconName = document["iconName"] as? String ?? ""
+        self.iconColor = document["iconColor"] as? String ?? ""
+        self.createdPostIds = document["createdPostIds"] as? [String] ?? []
+        self.blockUserIds = document["blockUserIds"] as? [String] ?? []
+        self.version = document["version"] as? Int ?? 1
     }
     
 }
