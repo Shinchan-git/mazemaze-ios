@@ -26,8 +26,6 @@ class RecommendedViewController: UIViewController {
         } else {
             loginButton.isHidden = false
         }
-        
-        print("userManager.id: \(userManager.id ?? "")")
     }
     
 }

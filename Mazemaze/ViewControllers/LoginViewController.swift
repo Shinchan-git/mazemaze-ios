@@ -54,8 +54,16 @@ class LoginViewController: UIViewController {
         guard let uid = userManager.id else { return }
         
         let userName = userNameTextField.text ?? ""
-        UserCRUD.createUser(user: User(id: uid, name: userName))
-        self.dismiss(animated: true)
+        Task {
+            do {
+                async let result = UserCRUD.createUser(user: User(id: uid, name: userName))
+                if let _ = try await result {
+                    self.dismiss(animated: true)
+                }
+            } catch {
+                print(error)
+            }
+        }
     }
     
     @objc func onCancelButton() {

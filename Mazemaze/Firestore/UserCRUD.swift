@@ -10,19 +10,24 @@ import Firebase
 
 class UserCRUD {
     
-    static func createUser(user: User) {
-        let db = Firestore.firestore()
-        db.collection("users").document(user.id).setData([
-            "id": user.id,
-            "name": user.name,
-            "iconName": user.iconName,
-            "iconColor": user.iconColor,
-            "createdPostIds": user.createdPostIds,
-            "blockUserIds": user.blockUserIds,
-            "version": user.version
-        ]) { error in
-            if let error = error {
-                print(error)
+    static func createUser(user: User) async throws -> ResultType? {
+        try await withCheckedThrowingContinuation { continuation in
+            let db = Firestore.firestore()
+            db.collection("users").document(user.id).setData([
+                "id": user.id,
+                "name": user.name,
+                "iconName": user.iconName,
+                "iconColor": user.iconColor,
+                "createdPostIds": user.createdPostIds,
+                "blockUserIds": user.blockUserIds,
+                "version": user.version
+            ]) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    print("Successfully created user")
+                    continuation.resume(returning: .success)
+                }
             }
         }
     }
