@@ -153,26 +153,54 @@ extension NewPostViewController: SubmitButtonCellDelegate {
         if !isFormFilled() { return }
         cell.setIsLoading(text: "送信中")
         post.date = Date()
-        sendPost()
+        
+        Task {
+            await createPost(userId: post.senderId ?? "")
+        }
     }
     
-    func sendPost() {
-        Task {
-            do {
-                async let docId = PostCRUD.createPost(post: post)
-                if let postId = try await docId {
-                    do {
-                        async let result = PostCRUD.addCreatedPostId(userId: post.senderId ?? "", postId: postId)
-                        if let _ = try await result {
-                            self.dismiss(animated: true)
-                        }
-                    } catch {
-                        print(error)
-                    }
-                }
-            } catch {
-                print(error)
+    func createPost(userId: String) async {
+        do {
+            async let docId = PostCRUD.createPost(post: post)
+            if let docId = try await docId {
+                await uploadImage(userId: userId, docId: docId)
             }
+        } catch {
+            print(error)
+        }
+    }
+    
+    func uploadImage(userId: String, docId: String) async {
+        do {
+            guard let image = selectedImage else { return }
+            async let imageUrl = ImageCRUD.uploadImage(userId: userId, docId: docId, image: image)
+            if let imageUrl = try await imageUrl {
+                await updatePost(docId: docId, key: "imageUrl", value: imageUrl)
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    func updatePost(docId: String, key: String, value: Any) async {
+        do {
+            async let docId = PostCRUD.updatePost(docId: docId, key: key, value: value)
+            if let docId = try await docId {
+                await addCreatedPostId(userId: post.senderId ?? "", docId: docId)
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    func addCreatedPostId(userId: String, docId: String) async {
+        do {
+            async let result = PostCRUD.addCreatedPostId(userId: userId, postId: docId)
+            if let _ = try await result {
+                self.dismiss(animated: true)
+            }
+        } catch {
+            print(error)
         }
     }
     

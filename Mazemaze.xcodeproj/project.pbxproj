@@ -40,6 +40,7 @@
 		EB6AAFDA284651D000F4D9AB /* SubmitButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB6AAFD8284651D000F4D9AB /* SubmitButtonTableViewCell.xib */; };
 		EB6AAFDC284659C800F4D9AB /* PostCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFDB284659C700F4D9AB /* PostCRUD.swift */; };
 		EB6AAFE028465E9E00F4D9AB /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFDF28465E9E00F4D9AB /* ResultType.swift */; };
+		EB6AAFE32846FF8F00F4D9AB /* ImageCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFE22846FF8F00F4D9AB /* ImageCRUD.swift */; };
 		EB9AAEEC2839D1FC0088D2EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9AAEEB2839D1FC0088D2EB /* AppDelegate.swift */; };
 		EB9AAEEE2839D1FC0088D2EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9AAEED2839D1FC0088D2EB /* SceneDelegate.swift */; };
 		EB9AAEF32839D1FC0088D2EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB9AAEF12839D1FC0088D2EB /* Main.storyboard */; };
@@ -79,6 +80,7 @@
 		EB6AAFD8284651D000F4D9AB /* SubmitButtonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SubmitButtonTableViewCell.xib; sourceTree = "<group>"; };
 		EB6AAFDB284659C700F4D9AB /* PostCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCRUD.swift; sourceTree = "<group>"; };
 		EB6AAFDF28465E9E00F4D9AB /* ResultType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultType.swift; sourceTree = "<group>"; };
+		EB6AAFE22846FF8F00F4D9AB /* ImageCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCRUD.swift; sourceTree = "<group>"; };
 		EB9AAEE82839D1FC0088D2EB /* Mazemaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mazemaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9AAEEB2839D1FC0088D2EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB9AAEED2839D1FC0088D2EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +189,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		EB6AAFE12846FF7200F4D9AB /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				EB6AAFE22846FF8F00F4D9AB /* ImageCRUD.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		EB9AAEDF2839D1FC0088D2EB = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +222,7 @@
 				EB6AAFB8284325B300F4D9AB /* Cells */,
 				EB6AAFA1283A1FD300F4D9AB /* Auth */,
 				EB6AAFAB283FDAFF00F4D9AB /* Firestore */,
+				EB6AAFE12846FF7200F4D9AB /* Storage */,
 				EB6AAFAE2842718B00F4D9AB /* Shared */,
 				EB6AAFA8283FD70800F4D9AB /* Models */,
 				EB6AAFB128428C0E00F4D9AB /* Utils */,
@@ -322,6 +333,7 @@
 				EB6AAFA3283A1FE600F4D9AB /* AuthManager.swift in Sources */,
 				EB6AAFBF2843349900F4D9AB /* SupportingTextTableViewCell.swift in Sources */,
 				EB6AAFE028465E9E00F4D9AB /* ResultType.swift in Sources */,
+				EB6AAFE32846FF8F00F4D9AB /* ImageCRUD.swift in Sources */,
 				EB6AAFCA2843C34500F4D9AB /* Post.swift in Sources */,
 				EB9AAEEC2839D1FC0088D2EB /* AppDelegate.swift in Sources */,
 				EB6AAFD028459BA900F4D9AB /* SetUnderlineInTextField.swift in Sources */,

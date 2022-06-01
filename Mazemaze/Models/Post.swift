@@ -11,7 +11,7 @@ class Post {
     
     var id: String?
     var title: String?
-    var imgUrl: String?
+    var imageUrl: String?
     var description: String?
     var relatedTags: [String] = []
     var senderId: String?

@@ -16,7 +16,7 @@ class PostCRUD {
             let doc = db.collection("posts").document()
             doc.setData([
                 "title": post.title ?? "",
-                "imgUrl": post.imgUrl ?? "",
+                "imageUrl": post.imageUrl ?? "",
                 "description": post.description ?? "",
                 "relatedTags": post.relatedTags,
                 "senderId": post.senderId ?? "",
@@ -44,6 +44,22 @@ class PostCRUD {
                 } else {
                     print("Successfully added created post id")
                     continuation.resume(returning: .success)
+                }
+            }
+        }
+    }
+    
+    static func updatePost(docId: String, key: String, value: Any) async throws -> String? {
+        try await withCheckedThrowingContinuation { continuation in
+            let db = Firestore.firestore()
+            db.collection("posts").document(docId).updateData([
+                key: value
+            ]) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    print("Successfully updated post")
+                    continuation.resume(returning: docId)
                 }
             }
         }
