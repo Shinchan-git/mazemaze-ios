@@ -22,9 +22,10 @@ class MyListTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setCell(text: String, image: UIImage) {
+    func setCell(text: String, image: UIImage, imageViewContentMode: UIView.ContentMode) {
         titleLabel.text = text
         bookImageView.image = image
+        bookImageView.contentMode = imageViewContentMode
     }
     
     //UI

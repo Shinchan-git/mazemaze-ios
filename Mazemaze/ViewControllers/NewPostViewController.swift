@@ -195,7 +195,7 @@ extension NewPostViewController: SubmitButtonCellDelegate {
     
     func addCreatedPostId(userId: String, docId: String) async {
         do {
-            async let result = PostCRUD.addCreatedPostId(userId: userId, postId: docId)
+            async let result = UserCRUD.addCreatedPostId(userId: userId, postId: docId)
             if let _ = try await result {
                 self.dismiss(animated: true)
             }

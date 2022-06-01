@@ -24,7 +24,7 @@ class UserManager {
             return self.user.name == "" ? nil : self.user.name
         }
     }
-    
+        
     private init() {
         //Do nothing
     }

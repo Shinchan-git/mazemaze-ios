@@ -13,11 +13,12 @@ class MyListViewController: UIViewController {
     @IBOutlet var signOutButton: UIButton!
     @IBOutlet var tableView: UITableView!
     
-    let userManager = UserManager.shared
-    
+    var myPosts: [Post] = []
+    var images: [UIImage?] = []
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib(nibName: "MyListTableViewCell", bundle: nil), forCellReuseIdentifier: "MyListTableViewCell")
@@ -26,13 +27,55 @@ class MyListViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if let _ = AuthManager.userId() {
+        if let userId = UserManager.shared.id ?? AuthManager.userId() {
             loginButton.isHidden = true
             tableView.isHidden = false
+            
+            if let posts = MyPostManager.shared.posts {
+                myPosts = posts
+            } else {
+                Task {
+                    await loadMyPosts(userId: userId)
+                }
+            }
         } else {
             loginButton.isHidden = false
             tableView.isHidden = true
         }
+    }
+    
+    func loadMyPosts(userId: String) async {
+        do {
+            async let posts = PostCRUD.readPostByField(where: "senderId", isEqualTo: userId)
+            if let posts = try await posts {
+                myPosts = posts
+                MyPostManager.shared.posts = posts
+                tableView.reloadData()
+                
+                if let images = MyPostManager.shared.images {
+                    self.images = images
+                } else {
+                    let docIds = myPosts.map { $0.id ?? "" }
+                    print("docIds: \(docIds)")
+                    await loadPostImages(userId: userId, docIds: docIds)
+                }
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    func loadPostImages(userId: String, docIds: [String]) async {
+        for docId in docIds {
+            do {
+                let image = try await ImageCRUD.readImage(userId: userId, docId: docId)
+                images.append(image)
+            } catch {
+                print(error)
+            }
+        }
+        MyPostManager.shared.images = images
+        tableView.reloadData()
     }
     
     @IBAction func onSignOutButton() {
@@ -52,7 +95,7 @@ extension MyListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return myPosts.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,9 +103,12 @@ extension MyListViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch indexPath.row {
         case 0:
-            cell.setCell(text: "新規投稿を作成", image: UIImage(systemName: "plus")!)
+            cell.setCell(text: "新規投稿を作成", image: UIImage(systemName: "plus")!, imageViewContentMode: .center)
         default:
-            cell.setCell(text: "画集のタイトル", image: UIImage(systemName: "questionmark")!)
+            let index = indexPath.row - 1
+            let post = myPosts[index]
+            let image = index < images.count ? images[index] : nil
+            cell.setCell(text: post.title ?? "", image: image ?? UIImage(), imageViewContentMode: .scaleAspectFill)
         }
         return cell
     }

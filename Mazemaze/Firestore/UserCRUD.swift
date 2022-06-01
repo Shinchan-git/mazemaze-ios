@@ -50,4 +50,20 @@ class UserCRUD {
         }
     }
     
+    static func addCreatedPostId(userId: String, postId: String) async throws -> ResultType? {
+        try await withCheckedThrowingContinuation { continuation in
+            let db = Firestore.firestore()
+            db.collection("users").document(userId).updateData([
+                "createdPostIds": FieldValue.arrayUnion([postId])
+            ]) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    print("Successfully added created post id")
+                    continuation.resume(returning: .success)
+                }
+            }
+        }
+    }
+    
 }

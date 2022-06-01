@@ -15,6 +15,7 @@ class PostCRUD {
             let db = Firestore.firestore()
             let doc = db.collection("posts").document()
             doc.setData([
+                "id": doc.documentID,
                 "title": post.title ?? "",
                 "imageUrl": post.imageUrl ?? "",
                 "description": post.description ?? "",
@@ -33,22 +34,6 @@ class PostCRUD {
         }
     }
     
-    static func addCreatedPostId(userId: String, postId: String) async throws -> ResultType? {
-        try await withCheckedThrowingContinuation { continuation in
-            let db = Firestore.firestore()
-            db.collection("users").document(userId).updateData([
-                "createdPostIds": FieldValue.arrayUnion([postId])
-            ]) { error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    print("Successfully added created post id")
-                    continuation.resume(returning: .success)
-                }
-            }
-        }
-    }
-    
     static func updatePost(docId: String, key: String, value: Any) async throws -> String? {
         try await withCheckedThrowingContinuation { continuation in
             let db = Firestore.firestore()
@@ -60,6 +45,25 @@ class PostCRUD {
                 } else {
                     print("Successfully updated post")
                     continuation.resume(returning: docId)
+                }
+            }
+        }
+    }
+    
+    static func readPostByField(where key: String, isEqualTo value: Any) async throws -> [Post]? {
+        try await withCheckedThrowingContinuation { continuation in
+            let db = Firestore.firestore()
+            db.collection("posts").whereField(key, isEqualTo: value).getDocuments() { (querySnapshot, error) in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    if let documents = querySnapshot?.documents {
+                        print("Successfully read posts")
+                        let posts = documents.map { Post(document: $0) }
+                        continuation.resume(returning: posts)
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
                 }
             }
         }
