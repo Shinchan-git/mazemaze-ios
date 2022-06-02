@@ -17,6 +17,8 @@ class NewPostViewController: UIViewController {
     var currentTextFieldFrame: CGRect?
     var scrollOffset: CGFloat = 0.0
     
+    var completion: (() -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +45,10 @@ class NewPostViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         notification.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         notification.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        completion?()
     }
     
     func hasEdited() -> Bool {
@@ -176,6 +182,7 @@ extension NewPostViewController: SubmitButtonCellDelegate {
             async let imageUrl = ImageCRUD.uploadImage(userId: userId, docId: docId, image: image)
             if let imageUrl = try await imageUrl {
                 await updatePost(docId: docId, key: "imageUrl", value: imageUrl)
+                post.imageUrl = imageUrl
             }
         } catch {
             print(error)
@@ -197,6 +204,7 @@ extension NewPostViewController: SubmitButtonCellDelegate {
         do {
             async let result = UserCRUD.addCreatedPostId(userId: userId, postId: docId)
             if let _ = try await result {
+                MyPostManager.shared.myPosts?.insert(MyPost(post: post, image: selectedImage), at: 0)
                 self.dismiss(animated: true)
             }
         } catch {

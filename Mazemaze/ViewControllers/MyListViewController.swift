@@ -12,10 +12,7 @@ class MyListViewController: UIViewController {
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var signOutButton: UIButton!
     @IBOutlet var tableView: UITableView!
-    
-    var myPosts: [Post] = []
-    var images: [UIImage?] = []
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -26,13 +23,13 @@ class MyListViewController: UIViewController {
         setupViews()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if let userId = UserManager.shared.id ?? AuthManager.userId() {
             loginButton.isHidden = true
             tableView.isHidden = false
             
-            if let posts = MyPostManager.shared.posts {
-                myPosts = posts
+            if let myPosts = MyPostManager.shared.myPosts {
+                MyPostManager.shared.myPosts = myPosts
             } else {
                 Task {
                     await loadMyPosts(userId: userId)
@@ -45,36 +42,34 @@ class MyListViewController: UIViewController {
     }
     
     func loadMyPosts(userId: String) async {
+        print("Load my posts")
         do {
             async let posts = PostCRUD.readPostByField(where: "senderId", isEqualTo: userId)
             if let posts = try await posts {
-                myPosts = posts
-                MyPostManager.shared.posts = posts
+                let myPosts = posts.map { MyPost(post: $0, image: nil) }
+                MyPostManager.shared.myPosts = myPosts
                 tableView.reloadData()
-                
-                if let images = MyPostManager.shared.images {
-                    self.images = images
-                } else {
-                    let docIds = myPosts.map { $0.id ?? "" }
-                    print("docIds: \(docIds)")
-                    await loadPostImages(userId: userId, docIds: docIds)
-                }
+                await loadPostImages(userId: userId, myPosts: myPosts)
             }
         } catch {
             print(error)
         }
     }
     
-    func loadPostImages(userId: String, docIds: [String]) async {
-        for docId in docIds {
+    func loadPostImages(userId: String, myPosts: [MyPost]) async {
+        for (index, myPost) in myPosts.enumerated() {
+            let docId = myPost.post?.id ?? ""
             do {
                 let image = try await ImageCRUD.readImage(userId: userId, docId: docId)
-                images.append(image)
+                MyPostManager.shared.myPosts?[index].image = image
             } catch {
                 print(error)
             }
         }
-        MyPostManager.shared.images = images
+        tableView.reloadData()
+    }
+    
+    func callBack() {
         tableView.reloadData()
     }
     
@@ -85,6 +80,15 @@ class MyListViewController: UIViewController {
     @objc func onSettingButton() {
         self.performSegue(withIdentifier: "toSettingView", sender: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toNewPostView" {
+            let navigationController = segue.destination as! UINavigationController
+            let newPostViewController = navigationController.topViewController as! NewPostViewController
+            newPostViewController.completion = { self.callBack() }
+        }
+    }
+    
 }
 
 //TableView
@@ -95,7 +99,7 @@ extension MyListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myPosts.count + 1
+        return (MyPostManager.shared.myPosts ?? []).count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -106,9 +110,8 @@ extension MyListViewController: UITableViewDataSource, UITableViewDelegate {
             cell.setCell(text: "新規投稿を作成", image: UIImage(systemName: "plus")!, imageViewContentMode: .center)
         default:
             let index = indexPath.row - 1
-            let post = myPosts[index]
-            let image = index < images.count ? images[index] : nil
-            cell.setCell(text: post.title ?? "", image: image ?? UIImage(), imageViewContentMode: .scaleAspectFill)
+            let myPost = (MyPostManager.shared.myPosts ?? [])[index]
+            cell.setCell(text: myPost.post?.title ?? "", image: myPost.image ?? UIImage(), imageViewContentMode: .scaleAspectFill)
         }
         return cell
     }
