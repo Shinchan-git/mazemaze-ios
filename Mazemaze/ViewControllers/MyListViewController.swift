@@ -42,12 +42,18 @@ class MyListViewController: UIViewController {
     }
     
     func loadMyPosts(userId: String) async {
-        print("Load my posts")
         do {
             async let posts = PostCRUD.readPostByField(where: "senderId", isEqualTo: userId)
             if let posts = try await posts {
-                let myPosts = posts.map { MyPost(post: $0, image: nil) }
-                MyPostManager.shared.myPosts = myPosts
+                let myPosts = posts.map { DisplayedPost(post: $0, image: nil) }
+                let sorted = myPosts.sorted {
+                    if let a = $0.post?.date, let b = $1.post?.date {
+                        return a > b
+                    } else {
+                        return false
+                    }
+                }
+                MyPostManager.shared.myPosts = sorted
                 tableView.reloadData()
                 await loadPostImages(userId: userId, myPosts: myPosts)
             }
@@ -56,17 +62,17 @@ class MyListViewController: UIViewController {
         }
     }
     
-    func loadPostImages(userId: String, myPosts: [MyPost]) async {
+    func loadPostImages(userId: String, myPosts: [DisplayedPost]) async {
         for (index, myPost) in myPosts.enumerated() {
             let docId = myPost.post?.id ?? ""
             do {
                 let image = try await ImageCRUD.readImage(userId: userId, docId: docId)
                 MyPostManager.shared.myPosts?[index].image = image
+                tableView.reloadData()
             } catch {
                 print(error)
             }
         }
-        tableView.reloadData()
     }
     
     func callBack() {

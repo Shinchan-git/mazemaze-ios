@@ -11,6 +11,8 @@ class SpacerTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        setupView()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -19,6 +21,11 @@ class SpacerTableViewCell: UITableViewCell {
     
     func setCell(height: CGFloat) {
         self.frame.size.height = height
+    }
+    
+    //UI
+    func setupView() {
+        self.selectionStyle = .none
     }
     
 }

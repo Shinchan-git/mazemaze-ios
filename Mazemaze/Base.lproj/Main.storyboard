@@ -222,8 +222,20 @@
                     <view key="view" contentMode="scaleToFill" id="lJS-5d-15O">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FsV-by-CLG">
+                                <rect key="frame" x="0.0" y="56" width="390" height="734"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="kyx-yB-RN2"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="FsV-by-CLG" firstAttribute="leading" secondItem="kyx-yB-RN2" secondAttribute="leading" id="2uF-Q8-9ZA"/>
+                            <constraint firstItem="kyx-yB-RN2" firstAttribute="trailing" secondItem="FsV-by-CLG" secondAttribute="trailing" id="kyx-Td-kdC"/>
+                            <constraint firstItem="FsV-by-CLG" firstAttribute="top" secondItem="kyx-yB-RN2" secondAttribute="top" id="nNJ-Qf-vlX"/>
+                            <constraint firstItem="kyx-yB-RN2" firstAttribute="bottom" secondItem="FsV-by-CLG" secondAttribute="bottom" id="zNK-tu-qs8"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2aO-R9-DwU"/>
                 </viewController>

@@ -13,6 +13,7 @@ class NewPostViewController: UIViewController {
     
     var selectedImage: UIImage? = nil
     let post = Post()
+    let defaultRelatedTags = Constants.relatedTags
     let notification = NotificationCenter.default
     var currentTextFieldFrame: CGRect?
     var scrollOffset: CGFloat = 0.0
@@ -30,6 +31,7 @@ class NewPostViewController: UIViewController {
         tableView.register(UINib(nibName: "SupportingTextTableViewCell", bundle: nil), forCellReuseIdentifier: "SupportingTextTableViewCell")
         tableView.register(UINib(nibName: "ImageTableViewCell", bundle: nil), forCellReuseIdentifier: "ImageTableViewCell")
         tableView.register(UINib(nibName: "TextButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "TextButtonTableViewCell")
+        tableView.register(UINib(nibName: "SelectionTableViewCell", bundle: nil), forCellReuseIdentifier: "SelectionTableViewCell")
         tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "TextFieldTableViewCell")
         tableView.register(UINib(nibName: "SpacerTableViewCell", bundle: nil), forCellReuseIdentifier: "SpacerTableViewCell")
         tableView.register(UINib(nibName: "SubmitButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "SubmitButtonTableViewCell")
@@ -58,7 +60,10 @@ class NewPostViewController: UIViewController {
         if (post.title ?? "").removeBlanks() != "" {
             return true
         }
-        for tag in post.relatedTags {
+        if post.selectedTags.count >= 1 {
+            return true
+        }
+        for tag in post.enteredTags {
             if tag.removeBlanks() != "" {
                 return true
             }
@@ -71,14 +76,17 @@ class NewPostViewController: UIViewController {
         if (post.title ?? "").removeBlanks() == "" {
             return false
         }
-        if post.relatedTags.isEmpty {
+        if post.selectedTags.count == 0 {
             return false
         }
-        for tag in post.relatedTags {
-            if tag.removeBlanks() == "" {
-                return false
-            }
-        }
+//        if post.relatedTags.isEmpty {
+//            return false
+//        }
+//        for tag in post.relatedTags {
+//            if tag.removeBlanks() == "" {
+//                return false
+//            }
+//        }
         return true
     }
     
@@ -121,6 +129,19 @@ extension NewPostViewController: UINavigationControllerDelegate, UIImagePickerCo
     
 }
 
+//Related tag selected
+extension NewPostViewController: SelectionCellDelegate {
+    
+    func cellSelected(labelText: String, cell: SelectionTableViewCell) {
+        if post.selectedTags.contains(labelText) {
+            post.selectedTags.removeAll(where: { $0 == labelText })
+        } else {
+            post.selectedTags.append(labelText)
+        }
+    }
+    
+}
+
 //TextField
 extension NewPostViewController: TextFieldCellDelegate {
     
@@ -141,11 +162,11 @@ extension NewPostViewController: TextFieldCellDelegate {
         case .relatedTagTextField:
             guard let text = text else { break }
             if let index = cell.relatedTagIndex {
-                post.relatedTags[index] = text
+                post.enteredTags[index] = text
             } else {
-                post.relatedTags.append(text)
+                post.enteredTags.append(text)
             }
-            post.relatedTags = post.relatedTags.filter{ $0.removeBlanks() != "" }
+            post.enteredTags = post.enteredTags.filter{ $0.removeBlanks() != "" }
         }
         tableView.reloadData()
     }
@@ -204,7 +225,7 @@ extension NewPostViewController: SubmitButtonCellDelegate {
         do {
             async let result = UserCRUD.addCreatedPostId(userId: userId, postId: docId)
             if let _ = try await result {
-                MyPostManager.shared.myPosts?.insert(MyPost(post: post, image: selectedImage), at: 0)
+                MyPostManager.shared.myPosts?.insert(DisplayedPost(post: post, image: selectedImage), at: 0)
                 self.dismiss(animated: true)
             }
         } catch {
@@ -229,6 +250,11 @@ extension NewPostViewController: UITableViewDataSource, UITableViewDelegate {
         return cells(indexPath: indexPath)[indexPath.row]
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(post.selectedTags)
+        tableView.reloadData()
+    }
+    
     func cells(indexPath: IndexPath?) -> [UITableViewCell] {
         let indexPath = indexPath ?? IndexPath(row: 0, section: 0)
         var cells: [UITableViewCell] = []
@@ -242,11 +268,14 @@ extension NewPostViewController: UITableViewDataSource, UITableViewDelegate {
             spacerCell(indexPath: indexPath),
             supportingTextCell(text: "関連するワード", indexPath: indexPath)
         ])
-        for (index, tag) in post.relatedTags.enumerated() {
-            cells.append(textFieldCell(text: tag, placeholder: "関連するワードを入力", cellType: .relatedTagTextField, relatedTagIndex: index, indexPath: indexPath))
+        for tag in defaultRelatedTags {
+            cells.append(selectionCell(text: tag, isSelected: post.selectedTags.contains(tag), indexPath: indexPath))
+        }
+        for (index, tag) in post.enteredTags.enumerated() {
+            cells.append(textFieldCell(text: tag, placeholder: "+ 関連するワードを入力", cellType: .relatedTagTextField, relatedTagIndex: index, indexPath: indexPath))
         }
         cells.append(contentsOf: [
-            textFieldCell(text: "", placeholder: "関連するワードを入力", cellType: .relatedTagTextField, relatedTagIndex: nil, indexPath: indexPath),
+            textFieldCell(text: "", placeholder: "+ 関連するワードを入力", cellType: .relatedTagTextField, relatedTagIndex: nil, indexPath: indexPath),
             spacerCell(indexPath: indexPath),
             submitButtonCell(text: "投稿する", indexPath: indexPath),
             spacerCell(indexPath: indexPath),
@@ -257,10 +286,6 @@ extension NewPostViewController: UITableViewDataSource, UITableViewDelegate {
         ])
         
         return cells
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.selectionStyle = .none
     }
     
     func supportingTextCell(text: String, indexPath: IndexPath) -> UITableViewCell {
@@ -279,6 +304,13 @@ extension NewPostViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TextButtonTableViewCell", for: indexPath) as! TextButtonTableViewCell
         cell.delegate = self as TextButtonCellDelegate
         cell.setCell(text: text)
+        return cell
+    }
+    
+    func selectionCell(text: String, isSelected: Bool, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionTableViewCell", for: indexPath) as! SelectionTableViewCell
+        cell.delegate = self as SelectionCellDelegate
+        cell.setCell(text: text, isSelected: isSelected)
         return cell
     }
     

@@ -14,7 +14,8 @@ class Post {
     var title: String?
     var imageUrl: String?
     var description: String?
-    var relatedTags: [String] = []
+    var selectedTags: [String] = []
+    var enteredTags: [String] = []
     var senderId: String?
     var date: Date?
     var version: Int = 1
@@ -28,7 +29,8 @@ class Post {
         self.title = document["title"] as? String ?? ""
         self.imageUrl = document["imageUrl"] as? String ?? ""
         self.description = document["description"] as? String ?? ""
-        self.relatedTags = document["relatedTags"] as? [String] ?? []
+        self.selectedTags = document["selectedTags"] as? [String] ?? []
+        self.enteredTags = document["enteredTags"] as? [String] ?? []
         self.senderId = document["senderId"] as? String ?? ""
         self.date = document["date"] as? Date
         self.version = document["version"] as? Int ?? 1

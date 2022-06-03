@@ -12,10 +12,7 @@ class MyPostManager {
     
     static let shared = MyPostManager()
     
-//    var posts: [Post]?
-//    var images: [UIImage?]?
-    
-    var myPosts: [MyPost]?
+    var myPosts: [DisplayedPost]?
     
     private init() {
         //Do nothing

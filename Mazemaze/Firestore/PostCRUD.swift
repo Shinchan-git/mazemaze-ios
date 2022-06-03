@@ -19,7 +19,8 @@ class PostCRUD {
                 "title": post.title ?? "",
                 "imageUrl": post.imageUrl ?? "",
                 "description": post.description ?? "",
-                "relatedTags": post.relatedTags,
+                "selectedTags": post.selectedTags,
+                "enteredTags": post.enteredTags,
                 "senderId": post.senderId ?? "",
                 "date": post.date ?? Date(),
                 "version": post.version

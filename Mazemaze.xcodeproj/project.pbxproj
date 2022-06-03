@@ -42,7 +42,10 @@
 		EB6AAFE028465E9E00F4D9AB /* ResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFDF28465E9E00F4D9AB /* ResultType.swift */; };
 		EB6AAFE32846FF8F00F4D9AB /* ImageCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFE22846FF8F00F4D9AB /* ImageCRUD.swift */; };
 		EB6AAFE528477C2000F4D9AB /* MyPostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFE428477C2000F4D9AB /* MyPostManager.swift */; };
-		EB6AAFE92848A0BD00F4D9AB /* MyPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFE82848A0BD00F4D9AB /* MyPost.swift */; };
+		EB6AAFE92848A0BD00F4D9AB /* DisplayedPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFE82848A0BD00F4D9AB /* DisplayedPost.swift */; };
+		EB6AAFEC2849F75000F4D9AB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFEB2849F75000F4D9AB /* Constants.swift */; };
+		EB6AAFEF2849FAA900F4D9AB /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFED2849FAA900F4D9AB /* SelectionTableViewCell.swift */; };
+		EB6AAFF02849FAA900F4D9AB /* SelectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB6AAFEE2849FAA900F4D9AB /* SelectionTableViewCell.xib */; };
 		EB9AAEEC2839D1FC0088D2EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9AAEEB2839D1FC0088D2EB /* AppDelegate.swift */; };
 		EB9AAEEE2839D1FC0088D2EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9AAEED2839D1FC0088D2EB /* SceneDelegate.swift */; };
 		EB9AAEF32839D1FC0088D2EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB9AAEF12839D1FC0088D2EB /* Main.storyboard */; };
@@ -84,7 +87,10 @@
 		EB6AAFDF28465E9E00F4D9AB /* ResultType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultType.swift; sourceTree = "<group>"; };
 		EB6AAFE22846FF8F00F4D9AB /* ImageCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCRUD.swift; sourceTree = "<group>"; };
 		EB6AAFE428477C2000F4D9AB /* MyPostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostManager.swift; sourceTree = "<group>"; };
-		EB6AAFE82848A0BD00F4D9AB /* MyPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPost.swift; sourceTree = "<group>"; };
+		EB6AAFE82848A0BD00F4D9AB /* DisplayedPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedPost.swift; sourceTree = "<group>"; };
+		EB6AAFEB2849F75000F4D9AB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		EB6AAFED2849FAA900F4D9AB /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
+		EB6AAFEE2849FAA900F4D9AB /* SelectionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionTableViewCell.xib; sourceTree = "<group>"; };
 		EB9AAEE82839D1FC0088D2EB /* Mazemaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mazemaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9AAEEB2839D1FC0088D2EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB9AAEED2839D1FC0088D2EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,7 +146,7 @@
 			children = (
 				EB6AAFA9283FD74700F4D9AB /* User.swift */,
 				EB6AAFC92843C34500F4D9AB /* Post.swift */,
-				EB6AAFE82848A0BD00F4D9AB /* MyPost.swift */,
+				EB6AAFE82848A0BD00F4D9AB /* DisplayedPost.swift */,
 				EB6AAFD128459F9700F4D9AB /* CellType.swift */,
 				EB6AAFDF28465E9E00F4D9AB /* ResultType.swift */,
 			);
@@ -185,6 +191,8 @@
 				EB6AAFC22843AABF00F4D9AB /* ImageTableViewCell.xib */,
 				EB6AAFC52843B2C900F4D9AB /* TextButtonTableViewCell.swift */,
 				EB6AAFC62843B2C900F4D9AB /* TextButtonTableViewCell.xib */,
+				EB6AAFED2849FAA900F4D9AB /* SelectionTableViewCell.swift */,
+				EB6AAFEE2849FAA900F4D9AB /* SelectionTableViewCell.xib */,
 				EB6AAFCB2845293500F4D9AB /* TextFieldTableViewCell.swift */,
 				EB6AAFCC2845293500F4D9AB /* TextFieldTableViewCell.xib */,
 				EB6AAFD7284651D000F4D9AB /* SubmitButtonTableViewCell.swift */,
@@ -201,6 +209,14 @@
 				EB6AAFE22846FF8F00F4D9AB /* ImageCRUD.swift */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		EB6AAFEA2849F71D00F4D9AB /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				EB6AAFEB2849F75000F4D9AB /* Constants.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		EB9AAEDF2839D1FC0088D2EB = {
@@ -232,6 +248,7 @@
 				EB6AAFAE2842718B00F4D9AB /* Shared */,
 				EB6AAFA8283FD70800F4D9AB /* Models */,
 				EB6AAFB128428C0E00F4D9AB /* Utils */,
+				EB6AAFEA2849F71D00F4D9AB /* Data */,
 				EB9AAEF12839D1FC0088D2EB /* Main.storyboard */,
 				EB9AAEF62839D1FF0088D2EB /* LaunchScreen.storyboard */,
 				EB9AAEF42839D1FF0088D2EB /* Assets.xcassets */,
@@ -319,6 +336,7 @@
 				EB6AAFD628463E6B00F4D9AB /* SpacerTableViewCell.xib in Resources */,
 				EB6AAFDA284651D000F4D9AB /* SubmitButtonTableViewCell.xib in Resources */,
 				EB9AAEF32839D1FC0088D2EB /* Main.storyboard in Resources */,
+				EB6AAFF02849FAA900F4D9AB /* SelectionTableViewCell.xib in Resources */,
 				EB6AAFC42843AABF00F4D9AB /* ImageTableViewCell.xib in Resources */,
 				EB9AAF042839D96E0088D2EB /* GoogleService-Info.plist in Resources */,
 				EB6AAFCE2845293500F4D9AB /* TextFieldTableViewCell.xib in Resources */,
@@ -340,10 +358,11 @@
 				EB6AAFBF2843349900F4D9AB /* SupportingTextTableViewCell.swift in Sources */,
 				EB6AAFE028465E9E00F4D9AB /* ResultType.swift in Sources */,
 				EB6AAFE32846FF8F00F4D9AB /* ImageCRUD.swift in Sources */,
-				EB6AAFE92848A0BD00F4D9AB /* MyPost.swift in Sources */,
+				EB6AAFE92848A0BD00F4D9AB /* DisplayedPost.swift in Sources */,
 				EB6AAFCA2843C34500F4D9AB /* Post.swift in Sources */,
 				EB9AAEEC2839D1FC0088D2EB /* AppDelegate.swift in Sources */,
 				EB6AAFD028459BA900F4D9AB /* SetUnderlineInTextField.swift in Sources */,
+				EB6AAFEF2849FAA900F4D9AB /* SelectionTableViewCell.swift in Sources */,
 				EB6AAFD9284651D000F4D9AB /* SubmitButtonTableViewCell.swift in Sources */,
 				EB6AAFDC284659C800F4D9AB /* PostCRUD.swift in Sources */,
 				EB6AAFBB284325D500F4D9AB /* MyListTableViewCell.swift in Sources */,
@@ -358,6 +377,7 @@
 				EB6AAFC72843B2C900F4D9AB /* TextButtonTableViewCell.swift in Sources */,
 				EB6AAFC32843AABF00F4D9AB /* ImageTableViewCell.swift in Sources */,
 				EB6AAFCD2845293500F4D9AB /* TextFieldTableViewCell.swift in Sources */,
+				EB6AAFEC2849F75000F4D9AB /* Constants.swift in Sources */,
 				EB6AAFB0284271AD00F4D9AB /* UserManager.swift in Sources */,
 				EB9AAEEE2839D1FC0088D2EB /* SceneDelegate.swift in Sources */,
 				EB6AAFD528463E6B00F4D9AB /* SpacerTableViewCell.swift in Sources */,
