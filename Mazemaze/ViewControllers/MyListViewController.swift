@@ -28,9 +28,8 @@ class MyListViewController: UIViewController {
             loginButton.isHidden = true
             tableView.isHidden = false
             
-            if let myPosts = MyPostManager.shared.myPosts {
-                MyPostManager.shared.myPosts = myPosts
-            } else {
+            //Load my posts
+            if let _ = MyPostManager.shared.myPosts {} else {
                 Task {
                     await loadMyPosts(userId: userId)
                 }
@@ -43,7 +42,7 @@ class MyListViewController: UIViewController {
     
     func loadMyPosts(userId: String) async {
         do {
-            async let posts = PostCRUD.readPostByField(where: "senderId", isEqualTo: userId)
+            async let posts = PostCRUD.readPostsByField(where: "senderId", isEqualTo: userId)
             if let posts = try await posts {
                 let myPosts = posts.map { DisplayedPost(post: $0, image: nil) }
                 let sorted = myPosts.sorted {

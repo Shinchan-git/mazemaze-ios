@@ -17,6 +17,7 @@ class Post {
     var selectedTags: [String] = []
     var enteredTags: [String] = []
     var senderId: String?
+    var senderName: String?
     var date: Date?
     var version: Int = 1
     
@@ -32,6 +33,7 @@ class Post {
         self.selectedTags = document["selectedTags"] as? [String] ?? []
         self.enteredTags = document["enteredTags"] as? [String] ?? []
         self.senderId = document["senderId"] as? String ?? ""
+        self.senderName = document["senderName"] as? String ?? ""
         self.date = document["date"] as? Date
         self.version = document["version"] as? Int ?? 1
     }

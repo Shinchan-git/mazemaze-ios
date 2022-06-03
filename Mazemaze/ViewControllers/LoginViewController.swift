@@ -15,8 +15,6 @@ class LoginViewController: UIViewController {
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var createAccountButton: UIButton!
     
-    let userManager = UserManager.shared
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,12 +29,12 @@ class LoginViewController: UIViewController {
                 do {
                     async let user = UserCRUD.getUser(uid: uid)
                     if let user = try await user {
-                        //Is returning user
-                        self.userManager.setUser(id: user.id)
+                        //Is returning user, user document exists
+                        UserManager.shared.setUser(id: user.id, name: user.name)
                         self.dismiss(animated: true)
                     } else {
-                        //Is new user
-                        self.userManager.setUser(id: uid)
+                        //Is new user, user document does not exist
+                        UserManager.shared.setUser(id: uid)
                         self.switchToUserNameView()
                     }
                 } catch {
@@ -51,13 +49,14 @@ class LoginViewController: UIViewController {
     }
     
     func createAccount() {
-        guard let uid = userManager.id else { return }
+        guard let uid = UserManager.shared.id else { return }
         
         let userName = userNameTextField.text ?? ""
         Task {
             do {
                 async let result = UserCRUD.createUser(user: User(id: uid, name: userName))
                 if let _ = try await result {
+                    UserManager.shared.setUser(id: uid, name: userName)
                     self.dismiss(animated: true)
                 }
             } catch {

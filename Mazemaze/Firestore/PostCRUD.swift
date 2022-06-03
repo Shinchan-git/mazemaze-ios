@@ -22,6 +22,7 @@ class PostCRUD {
                 "selectedTags": post.selectedTags,
                 "enteredTags": post.enteredTags,
                 "senderId": post.senderId ?? "",
+                "senderName": post.senderName ?? "",
                 "date": post.date ?? Date(),
                 "version": post.version
             ]) { error in
@@ -51,7 +52,7 @@ class PostCRUD {
         }
     }
     
-    static func readPostByField(where key: String, isEqualTo value: Any) async throws -> [Post]? {
+    static func readPostsByField(where key: String, isEqualTo value: Any) async throws -> [Post]? {
         try await withCheckedThrowingContinuation { continuation in
             let db = Firestore.firestore()
             db.collection("posts").whereField(key, isEqualTo: value).getDocuments() { (querySnapshot, error) in
@@ -59,7 +60,26 @@ class PostCRUD {
                     continuation.resume(throwing: error)
                 } else {
                     if let documents = querySnapshot?.documents {
-                        print("Successfully read posts")
+                        print("Successfully read posts by field")
+                        let posts = documents.map { Post(document: $0) }
+                        continuation.resume(returning: posts)
+                    } else {
+                        continuation.resume(returning: nil)
+                    }
+                }
+            }
+        }
+    }
+    
+    static func readPostsByArray(where key: String, containsAnyOf array: [String]) async throws -> [Post]? {
+        try await withCheckedThrowingContinuation { continuation in
+            let db = Firestore.firestore()
+            db.collection("posts").whereField(key, arrayContainsAny: array).getDocuments() { (querySnapshot, error) in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    if let documents = querySnapshot?.documents {
+                        print("Successfully read posts by array")
                         let posts = documents.map { Post(document: $0) }
                         continuation.resume(returning: posts)
                     } else {

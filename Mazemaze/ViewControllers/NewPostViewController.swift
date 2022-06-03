@@ -23,7 +23,18 @@ class NewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        post.senderId = UserManager.shared.id ?? AuthManager.userId()
+        if let userId = UserManager.shared.id ?? AuthManager.userId() {
+            post.senderId = userId
+            
+            if let name = UserManager.shared.name {
+                post.senderName = name
+            } else {
+                //Get user
+                Task {
+                    await getUser(userId: userId)
+                }
+            }
+        }
         
         self.navigationController?.presentationController?.delegate = self
         tableView.dataSource = self
@@ -53,6 +64,18 @@ class NewPostViewController: UIViewController {
         completion?()
     }
     
+    func getUser(userId: String) async {
+        do {
+            async let user = UserCRUD.getUser(uid: userId)
+            if let user = try await user {
+                UserManager.shared.setUser(id: user.id, name: user.name)
+                post.senderName = user.name
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
     func hasEdited() -> Bool {
         if let _ = selectedImage {
             return true
@@ -60,7 +83,7 @@ class NewPostViewController: UIViewController {
         if (post.title ?? "").removeBlanks() != "" {
             return true
         }
-        if post.selectedTags.count >= 1 {
+        if post.selectedTags.count != 0 {
             return true
         }
         for tag in post.enteredTags {
@@ -76,17 +99,9 @@ class NewPostViewController: UIViewController {
         if (post.title ?? "").removeBlanks() == "" {
             return false
         }
-        if post.selectedTags.count == 0 {
+        if post.selectedTags.count < 2 {
             return false
         }
-//        if post.relatedTags.isEmpty {
-//            return false
-//        }
-//        for tag in post.relatedTags {
-//            if tag.removeBlanks() == "" {
-//                return false
-//            }
-//        }
         return true
     }
     
@@ -136,6 +151,11 @@ extension NewPostViewController: SelectionCellDelegate {
         if post.selectedTags.contains(labelText) {
             post.selectedTags.removeAll(where: { $0 == labelText })
         } else {
+            for tagArray in defaultRelatedTags {
+                if tagArray.contains(labelText) {
+                    post.selectedTags = post.selectedTags.filter { !tagArray.contains($0) }
+                }
+            }
             post.selectedTags.append(labelText)
         }
     }
@@ -251,7 +271,6 @@ extension NewPostViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(post.selectedTags)
         tableView.reloadData()
     }
     
@@ -266,9 +285,13 @@ extension NewPostViewController: UITableViewDataSource, UITableViewDelegate {
             supportingTextCell(text: "タイトル", indexPath: indexPath),
             textFieldCell(text: post.title ?? "", placeholder: "タイトルを入力", cellType: .titleTextField, relatedTagIndex: nil, indexPath: indexPath),
             spacerCell(indexPath: indexPath),
-            supportingTextCell(text: "関連するワード", indexPath: indexPath)
+            supportingTextCell(text: "ジャンル", indexPath: indexPath)
         ])
-        for tag in defaultRelatedTags {
+        for tag in defaultRelatedTags[0] {
+            cells.append(selectionCell(text: tag, isSelected: post.selectedTags.contains(tag), indexPath: indexPath))
+        }
+        cells.append(supportingTextCell(text: "主題", indexPath: indexPath))
+        for tag in defaultRelatedTags[1] {
             cells.append(selectionCell(text: tag, isSelected: post.selectedTags.contains(tag), indexPath: indexPath))
         }
         for (index, tag) in post.enteredTags.enumerated() {

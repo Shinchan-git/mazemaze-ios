@@ -16,6 +16,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ga8-eg-eew">
+                                <rect key="frame" x="0.0" y="140" width="390" height="621"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BCk-I7-7Rj">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wIb-7s-knw">
                                 <rect key="frame" x="145" y="402" width="100" height="40"/>
                                 <constraints>
@@ -34,10 +45,15 @@
                         <constraints>
                             <constraint firstItem="wIb-7s-knw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="0Ix-40-CaD"/>
                             <constraint firstItem="wIb-7s-knw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="6eB-El-mfU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ga8-eg-eew" secondAttribute="trailing" id="NMq-LT-jdh"/>
+                            <constraint firstItem="Ga8-eg-eew" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="lYe-UG-SuB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ga8-eg-eew" secondAttribute="bottom" id="qjf-he-gPM"/>
+                            <constraint firstItem="Ga8-eg-eew" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="rIz-Nv-bqc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="iMb-b6-ODq"/>
                     <connections>
+                        <outlet property="collectionView" destination="Ga8-eg-eew" id="AeL-vD-waS"/>
                         <outlet property="loginButton" destination="wIb-7s-knw" id="CrZ-cu-1Uq"/>
                     </connections>
                 </viewController>

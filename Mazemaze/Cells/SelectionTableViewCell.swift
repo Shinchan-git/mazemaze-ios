@@ -31,9 +31,9 @@ class SelectionTableViewCell: UITableViewCell {
     func setCell(text: String, isSelected: Bool) {
         label.text = text
         if isSelected {
-            iconImageView.image = UIImage(systemName: "checkmark.square.fill")
+            iconImageView.image = UIImage(systemName: "circle.inset.filled")
         } else {
-            iconImageView.image = UIImage(systemName: "square")
+            iconImageView.image = UIImage(systemName: "circle")
         }
     }
 
