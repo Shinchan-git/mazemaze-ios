@@ -12,6 +12,7 @@ class MyPostManager {
     static let shared = MyPostManager()
     
     var myPosts: [DisplayedPost]?
+    var myTags: [String]?
     
     private init() {
         //Do nothing

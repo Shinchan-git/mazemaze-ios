@@ -47,7 +47,7 @@ class AuthManager {
         do {
             try Auth.auth().signOut()
         } catch let error as NSError {
-            print (error.localizedDescription)
+            print(error.localizedDescription)
         }
     }
     

@@ -25,13 +25,23 @@ class RecommendedViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if let _ = AuthManager.userId() {
+        if let userId = AuthManager.userId() {
             loginButton.isHidden = true
             
             if let _ = RecommendedPostManager.shared.posts {} else {
                 Task {
-                    //TODO
-//                    await loadRelatedPosts(tags: [])
+                    if let myTags = MyPostManager.shared.myTags {
+                        //Load related posts
+                        await loadRelatedPosts(tags: myTags)
+                    } else {
+                        if let myPosts = MyPostManager.shared.myPosts {
+                            //Get my tags, Load related posts
+                            await loadRelatedPosts(tags: myTags(myPosts: myPosts))
+                        } else {
+                            //Load my posts, Get my tags, Load related posts
+                            await loadMyPosts(userId: userId)
+                        }
+                    }
                 }
             }
         } else {
@@ -43,15 +53,62 @@ class RecommendedViewController: UIViewController {
         setupCollectionView()
     }
     
+    func loadMyPosts(userId: String) async {
+        do {
+            async let posts = PostCRUD.readPostsByField(where: "senderId", isEqualTo: userId)
+            if let posts = try await posts {
+                let myPosts = posts.map { DisplayedPost(post: $0, image: nil) }
+                MyPostManager.shared.myPosts = myPosts
+                await loadRelatedPosts(tags: myTags(myPosts: myPosts))
+            }
+        } catch {
+            print("RecommendedViewController - Error loading my posts: \(error)")
+        }
+    }
+    
+    func myTags(myPosts: [DisplayedPost]) -> [String] {
+        var allTags: [String] = []
+        for myPost in myPosts {
+            if let post = myPost.post {
+                allTags.append(contentsOf: post.selectedTags)
+            }
+        }
+        var myTags: [String] = []
+        for _ in 0..<3 {
+            if let mode = Stats.mode(ofString: allTags) {
+                myTags.append(mode[0])
+                allTags.removeAll(where: { $0 == mode[0] })
+            } else {
+                break
+            }
+        }
+        MyPostManager.shared.myTags = myTags
+        return myTags
+    }
+    
     func loadRelatedPosts(tags: [String]) async {
+        if tags == [] { return }
         do {
             async let relatedPosts = PostCRUD.readPostsByArray(where: "selectedTags", containsAnyOf: tags)
             if let relatedPosts = try await relatedPosts {
                 RecommendedPostManager.shared.posts = relatedPosts.map { DisplayedPost(post: $0, image: nil) }
                 collectionView.reloadData()
+                await loadRelatedPostImages(posts: relatedPosts)
             }
         } catch {
-            print(error)
+            print("RecommendedViewController - Error loading related posts: \(error)")
+        }
+    }
+    
+    func loadRelatedPostImages(posts: [Post]) async {
+        for (index, post) in posts.enumerated() {
+            do {
+                let image = try await ImageCRUD.readImage(userId: post.senderId ?? "", docId: post.id ?? "")
+                RecommendedPostManager.shared.posts?[index].image = image
+                collectionView.reloadData()
+            } catch {
+                print("RecommendedViewController - Error loading related post images: \(error)")
+            }
         }
     }
     

@@ -28,9 +28,17 @@ class MyListViewController: UIViewController {
             loginButton.isHidden = true
             tableView.isHidden = false
             
-            //Load my posts
-            if let _ = MyPostManager.shared.myPosts {} else {
-                Task {
+            Task {
+                if let myPosts = MyPostManager.shared.myPosts {
+                    for myPost in myPosts {
+                        if let _ = myPost.image {} else {
+                            //Load my post images
+                            await loadMyPostImages(userId: userId, myPosts: myPosts)
+                            break
+                        }
+                    }
+                } else {
+                    //Load my posts
                     await loadMyPosts(userId: userId)
                 }
             }
@@ -54,14 +62,14 @@ class MyListViewController: UIViewController {
                 }
                 MyPostManager.shared.myPosts = sorted
                 tableView.reloadData()
-                await loadPostImages(userId: userId, myPosts: myPosts)
+                await loadMyPostImages(userId: userId, myPosts: myPosts)
             }
         } catch {
             print(error)
         }
     }
     
-    func loadPostImages(userId: String, myPosts: [DisplayedPost]) async {
+    func loadMyPostImages(userId: String, myPosts: [DisplayedPost]) async {
         for (index, myPost) in myPosts.enumerated() {
             let docId = myPost.post?.id ?? ""
             do {

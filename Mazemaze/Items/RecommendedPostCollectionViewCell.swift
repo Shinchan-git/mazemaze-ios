@@ -15,12 +15,19 @@ class RecommendedPostCollectionViewCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        setupViews()
     }
 
     func setCell(image: UIImage, title: String, senderName: String) {
         bookImageView.image = image
         titleLabel.text = title
         senderNameLabel.text = senderName
+    }
+    
+    //UI
+    func setupViews() {
+        bookImageView.layer.cornerRadius = 3
     }
     
 }
