@@ -18,7 +18,7 @@ class NewPostViewController: UIViewController {
     var currentTextFieldFrame: CGRect?
     var scrollOffset: CGFloat = 0.0
     
-    var completion: (() -> Void)?
+    var didCreateNewPost: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,10 +58,6 @@ class NewPostViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         notification.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         notification.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        completion?()
     }
     
     func getUser(userId: String) async {
@@ -203,6 +199,8 @@ extension NewPostViewController: SubmitButtonCellDelegate {
         
         Task {
             await createPost(userId: post.senderId ?? "")
+            didCreateNewPost?()
+            self.dismiss(animated: true)
         }
     }
     
@@ -246,7 +244,6 @@ extension NewPostViewController: SubmitButtonCellDelegate {
             async let result = UserCRUD.addCreatedPostId(userId: userId, postId: docId)
             if let _ = try await result {
                 MyPostManager.shared.myPosts?.insert(DisplayedPost(post: post, image: selectedImage), at: 0)
-                self.dismiss(animated: true)
             }
         } catch {
             print(error)

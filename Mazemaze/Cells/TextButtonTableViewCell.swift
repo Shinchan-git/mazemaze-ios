@@ -27,8 +27,9 @@ class TextButtonTableViewCell: UITableViewCell {
         delegate?.onTextButton(cell: self)
     }
     
-    func setCell(text: String) {
+    func setCell(text: String, color: UIColor = .blue) {
         button.setTitle(text, for: .normal)
+        button.tintColor = color
     }
     
     //UI

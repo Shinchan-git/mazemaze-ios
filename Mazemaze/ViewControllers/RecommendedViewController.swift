@@ -11,9 +11,7 @@ class RecommendedViewController: UIViewController {
     
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var collectionView: UICollectionView!
-    
-    let userManager = UserManager.shared
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,18 +25,21 @@ class RecommendedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         if let userId = AuthManager.userId() {
             loginButton.isHidden = true
+            collectionView.isHidden = false
             
             if let _ = RecommendedPostManager.shared.posts {} else {
                 Task {
                     if let myTags = MyPostManager.shared.myTags {
-                        //Load related posts
-                        await loadRelatedPosts(tags: myTags)
+                        //Load related posts, Load other posts
+                        await loadRelatedPosts(tags: myTags, limit: Constants.minimumRecommendationCount / 2)
+                        await loadOtherPosts(tags: unrelatedTags())
                     } else {
                         if let myPosts = MyPostManager.shared.myPosts {
-                            //Get my tags, Load related posts
-                            await loadRelatedPosts(tags: myTags(myPosts: myPosts))
+                            //Get my tags, Load related posts, Load other posts
+                            await loadRelatedPosts(tags: myTags(myPosts: myPosts), limit: Constants.minimumRecommendationCount / 2)
+                            await loadOtherPosts(tags: unrelatedTags())
                         } else {
-                            //Load my posts, Get my tags, Load related posts
+                            //Load my posts, Get my tags, Load related posts, Load other posts
                             await loadMyPosts(userId: userId)
                         }
                     }
@@ -46,6 +47,7 @@ class RecommendedViewController: UIViewController {
             }
         } else {
             loginButton.isHidden = false
+            collectionView.isHidden = true
         }
     }
     
@@ -59,10 +61,11 @@ class RecommendedViewController: UIViewController {
             if let posts = try await posts {
                 let myPosts = posts.map { DisplayedPost(post: $0, image: nil) }
                 MyPostManager.shared.myPosts = myPosts
-                await loadRelatedPosts(tags: myTags(myPosts: myPosts))
+                await loadRelatedPosts(tags: myTags(myPosts: myPosts), limit: Constants.minimumRecommendationCount / 2)
+                await loadOtherPosts(tags: unrelatedTags())
             }
         } catch {
-            print("RecommendedViewController - Error loading my posts: \(error)")
+            print(error)
         }
     }
     
@@ -86,17 +89,21 @@ class RecommendedViewController: UIViewController {
         return myTags
     }
     
-    func loadRelatedPosts(tags: [String]) async {
+    func loadRelatedPosts(tags: [String], limit: Int) async {
         if tags == [] { return }
         do {
-            async let relatedPosts = PostCRUD.readPostsByArray(where: "selectedTags", containsAnyOf: tags)
+            async let relatedPosts = PostCRUD.readPostsByArray(where: "selectedTags", containsAnyOf: tags, limit: limit)
             if let relatedPosts = try await relatedPosts {
-                RecommendedPostManager.shared.posts = relatedPosts.map { DisplayedPost(post: $0, image: nil) }
+                RecommendedPostManager.shared.posts = RecommendedPostManager.shared.posts ?? []
+                let posts = relatedPosts.map { DisplayedPost(post: $0, image: nil) }
+                let alreadyDisplayedPostSenderIds: [String] = RecommendedPostManager.shared.posts?.map { $0.post?.senderId ?? "" } ?? []
+                let filtered = posts.filter { !alreadyDisplayedPostSenderIds.contains($0.post?.senderId ?? "") }
+                RecommendedPostManager.shared.posts?.append(contentsOf: filtered)
                 collectionView.reloadData()
                 await loadRelatedPostImages(posts: relatedPosts)
             }
         } catch {
-            print("RecommendedViewController - Error loading related posts: \(error)")
+            print(error)
         }
     }
     
@@ -107,8 +114,25 @@ class RecommendedViewController: UIViewController {
                 RecommendedPostManager.shared.posts?[index].image = image
                 collectionView.reloadData()
             } catch {
-                print("RecommendedViewController - Error loading related post images: \(error)")
+                print(error)
             }
+        }
+    }
+    
+    func unrelatedTags() -> [String] {
+        let myTags = MyPostManager.shared.myTags ?? []
+        var filteredTags: [String] = []
+        for tags in Constants.relatedTags {
+            let randomTags = tags.filter{!myTags.contains($0)}.shuffled().prefix(Int(10/Constants.relatedTags.count))
+            filteredTags.append(contentsOf: randomTags)
+        }
+        return filteredTags
+    }
+    
+    func loadOtherPosts(tags: [String]) async {
+        let postsToBeLoadedCount = Constants.minimumRecommendationCount - (RecommendedPostManager.shared.posts?.count ?? 0)
+        if postsToBeLoadedCount > 0 {
+            await loadRelatedPosts(tags: tags, limit: postsToBeLoadedCount)
         }
     }
     
@@ -153,6 +177,7 @@ extension RecommendedViewController {
     
     func setupViews() {
         loginButton.isHidden = true
+        collectionView.isHidden = true
     }
     
 }

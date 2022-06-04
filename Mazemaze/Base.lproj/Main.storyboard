@@ -154,15 +154,6 @@
                                 <rect key="frame" x="0.0" y="140" width="390" height="621"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8b-UP-pMA">
-                                <rect key="frame" x="131" y="639" width="158" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="ログアウト"/>
-                                <connections>
-                                    <action selector="onSignOutButton" destination="jiL-Uz-irA" eventType="touchUpInside" id="3Wi-Jw-ePP"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zB-qs-Fwe">
                                 <rect key="frame" x="145" y="402" width="100" height="40"/>
                                 <constraints>
@@ -190,7 +181,6 @@
                     <navigationItem key="navigationItem" id="h1M-Er-PsK"/>
                     <connections>
                         <outlet property="loginButton" destination="0zB-qs-Fwe" id="W90-w9-7I3"/>
-                        <outlet property="signOutButton" destination="C8b-UP-pMA" id="YhC-50-77Y"/>
                         <outlet property="tableView" destination="HeG-uB-gNQ" id="bDm-hu-MJc"/>
                         <segue destination="LAk-Y1-b7K" kind="presentation" identifier="toSettingView" id="UZ5-Wd-BvS"/>
                         <segue destination="7Tk-Sg-3g6" kind="presentation" identifier="toNewPostView" id="Rfu-FR-45r"/>
@@ -239,9 +229,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FsV-by-CLG">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FsV-by-CLG">
                                 <rect key="frame" x="0.0" y="56" width="390" height="734"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <sections/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kyx-yB-RN2"/>
@@ -254,6 +244,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2aO-R9-DwU"/>
+                    <connections>
+                        <outlet property="tableView" destination="FsV-by-CLG" id="uEN-tU-A5n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tYs-TR-z7i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

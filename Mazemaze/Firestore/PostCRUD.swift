@@ -52,10 +52,10 @@ class PostCRUD {
         }
     }
     
-    static func readPostsByField(where key: String, isEqualTo value: Any) async throws -> [Post]? {
+    static func readPostsByField(where key: String, isEqualTo value: Any, limit: Int = 30) async throws -> [Post]? {
         try await withCheckedThrowingContinuation { continuation in
             let db = Firestore.firestore()
-            db.collection("posts").whereField(key, isEqualTo: value).getDocuments() { (querySnapshot, error) in
+            db.collection("posts").whereField(key, isEqualTo: value).order(by: "date", descending: true).limit(to: limit).getDocuments() { (querySnapshot, error) in
                 if let error = error {
                     continuation.resume(throwing: error)
                 } else {
@@ -71,10 +71,10 @@ class PostCRUD {
         }
     }
     
-    static func readPostsByArray(where key: String, containsAnyOf array: [String]) async throws -> [Post]? {
+    static func readPostsByArray(where key: String, containsAnyOf array: [String], limit: Int) async throws -> [Post]? {
         try await withCheckedThrowingContinuation { continuation in
             let db = Firestore.firestore()
-            db.collection("posts").whereField(key, arrayContainsAny: array).getDocuments() { (querySnapshot, error) in
+            db.collection("posts").whereField(key, arrayContainsAny: array).limit(to: limit).getDocuments() { (querySnapshot, error) in
                 if let error = error {
                     continuation.resume(throwing: error)
                 } else {

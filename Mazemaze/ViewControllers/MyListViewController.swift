@@ -10,7 +10,6 @@ import UIKit
 class MyListViewController: UIViewController {
     
     @IBOutlet var loginButton: UIButton!
-    @IBOutlet var signOutButton: UIButton!
     @IBOutlet var tableView: UITableView!
 
     override func viewDidLoad() {
@@ -38,7 +37,7 @@ class MyListViewController: UIViewController {
                         }
                     }
                 } else {
-                    //Load my posts
+                    //Load my posts, Load my post images
                     await loadMyPosts(userId: userId)
                 }
             }
@@ -53,14 +52,7 @@ class MyListViewController: UIViewController {
             async let posts = PostCRUD.readPostsByField(where: "senderId", isEqualTo: userId)
             if let posts = try await posts {
                 let myPosts = posts.map { DisplayedPost(post: $0, image: nil) }
-                let sorted = myPosts.sorted {
-                    if let a = $0.post?.date, let b = $1.post?.date {
-                        return a > b
-                    } else {
-                        return false
-                    }
-                }
-                MyPostManager.shared.myPosts = sorted
+                MyPostManager.shared.myPosts = myPosts
                 tableView.reloadData()
                 await loadMyPostImages(userId: userId, myPosts: myPosts)
             }
@@ -82,12 +74,13 @@ class MyListViewController: UIViewController {
         }
     }
     
-    func callBack() {
+    func didCreateNewPost() {
         tableView.reloadData()
     }
     
-    @IBAction func onSignOutButton() {
-        AuthManager.signOut()
+    func didSignOut() {
+        tableView.isHidden = true
+        loginButton.isHidden = false
     }
     
     @objc func onSettingButton() {
@@ -98,7 +91,12 @@ class MyListViewController: UIViewController {
         if segue.identifier == "toNewPostView" {
             let navigationController = segue.destination as! UINavigationController
             let newPostViewController = navigationController.topViewController as! NewPostViewController
-            newPostViewController.completion = { self.callBack() }
+            newPostViewController.didCreateNewPost = { self.didCreateNewPost() }
+        }
+        if segue.identifier == "toSettingView" {
+            let navigationController = segue.destination as! UINavigationController
+            let newPostViewController = navigationController.topViewController as! SettingViewController
+            newPostViewController.didSignOut = { self.didSignOut() }
         }
     }
     

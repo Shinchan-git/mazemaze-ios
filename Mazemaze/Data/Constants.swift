@@ -9,6 +9,8 @@ import Foundation
 
 class Constants {
     
+    static let minimumRecommendationCount = 10
+    
     static let relatedTags: [[String]] = [
         [
             "日本画",

@@ -50,6 +50,8 @@
 		EB6AAFF6284A3E1700F4D9AB /* RecommendedPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFF4284A3E1700F4D9AB /* RecommendedPostCollectionViewCell.swift */; };
 		EB6AAFF7284A3E1700F4D9AB /* RecommendedPostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB6AAFF5284A3E1700F4D9AB /* RecommendedPostCollectionViewCell.xib */; };
 		EB6AAFF9284A978200F4D9AB /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFF8284A978200F4D9AB /* Stats.swift */; };
+		EB6AAFFC284BD40400F4D9AB /* TextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6AAFFA284BD40400F4D9AB /* TextTableViewCell.swift */; };
+		EB6AAFFD284BD40400F4D9AB /* TextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB6AAFFB284BD40400F4D9AB /* TextTableViewCell.xib */; };
 		EB9AAEEC2839D1FC0088D2EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9AAEEB2839D1FC0088D2EB /* AppDelegate.swift */; };
 		EB9AAEEE2839D1FC0088D2EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9AAEED2839D1FC0088D2EB /* SceneDelegate.swift */; };
 		EB9AAEF32839D1FC0088D2EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB9AAEF12839D1FC0088D2EB /* Main.storyboard */; };
@@ -99,6 +101,8 @@
 		EB6AAFF4284A3E1700F4D9AB /* RecommendedPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		EB6AAFF5284A3E1700F4D9AB /* RecommendedPostCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecommendedPostCollectionViewCell.xib; sourceTree = "<group>"; };
 		EB6AAFF8284A978200F4D9AB /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
+		EB6AAFFA284BD40400F4D9AB /* TextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTableViewCell.swift; sourceTree = "<group>"; };
+		EB6AAFFB284BD40400F4D9AB /* TextTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextTableViewCell.xib; sourceTree = "<group>"; };
 		EB9AAEE82839D1FC0088D2EB /* Mazemaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mazemaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9AAEEB2839D1FC0088D2EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB9AAEED2839D1FC0088D2EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,9 +136,9 @@
 		EB6AAF9B283A1A0300F4D9AB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				EB9AAF0C2839E00B0088D2EB /* LoginViewController.swift */,
 				EB9AAEFF2839D42C0088D2EB /* RecommendedViewController.swift */,
 				EB9AAF012839D7A60088D2EB /* MyListViewController.swift */,
-				EB9AAF0C2839E00B0088D2EB /* LoginViewController.swift */,
 				EB6AAFB6284291AB00F4D9AB /* NewPostViewController.swift */,
 				EB6AAFA4283A279D00F4D9AB /* SettingViewController.swift */,
 			);
@@ -209,6 +213,8 @@
 				EB6AAFD8284651D000F4D9AB /* SubmitButtonTableViewCell.xib */,
 				EB6AAFD328463E6B00F4D9AB /* SpacerTableViewCell.swift */,
 				EB6AAFD428463E6B00F4D9AB /* SpacerTableViewCell.xib */,
+				EB6AAFFA284BD40400F4D9AB /* TextTableViewCell.swift */,
+				EB6AAFFB284BD40400F4D9AB /* TextTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -360,6 +366,7 @@
 				EB6AAFF02849FAA900F4D9AB /* SelectionTableViewCell.xib in Resources */,
 				EB6AAFC42843AABF00F4D9AB /* ImageTableViewCell.xib in Resources */,
 				EB9AAF042839D96E0088D2EB /* GoogleService-Info.plist in Resources */,
+				EB6AAFFD284BD40400F4D9AB /* TextTableViewCell.xib in Resources */,
 				EB6AAFCE2845293500F4D9AB /* TextFieldTableViewCell.xib in Resources */,
 				EB6AAFC02843349900F4D9AB /* SupportingTextTableViewCell.xib in Resources */,
 				EB6AAFC82843B2C900F4D9AB /* TextButtonTableViewCell.xib in Resources */,
@@ -388,6 +395,7 @@
 				EB6AAFD9284651D000F4D9AB /* SubmitButtonTableViewCell.swift in Sources */,
 				EB6AAFDC284659C800F4D9AB /* PostCRUD.swift in Sources */,
 				EB6AAFBB284325D500F4D9AB /* MyListTableViewCell.swift in Sources */,
+				EB6AAFFC284BD40400F4D9AB /* TextTableViewCell.swift in Sources */,
 				EB6AAFB328428C3700F4D9AB /* RemoveBlanksInText.swift in Sources */,
 				EB6AAFF6284A3E1700F4D9AB /* RecommendedPostCollectionViewCell.swift in Sources */,
 				EB6AAFB7284291AB00F4D9AB /* NewPostViewController.swift in Sources */,

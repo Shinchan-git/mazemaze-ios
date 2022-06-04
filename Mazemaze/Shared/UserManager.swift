@@ -29,8 +29,8 @@ class UserManager {
         //Do nothing
     }
     
-    func setUser(id: String = "", name: String = "") {
-        self.user.id = id
-        self.user.name = name
+    func setUser(id: String? = "", name: String? = "") {
+        self.user.id = id ?? ""
+        self.user.name = name ?? ""
     }
 }
