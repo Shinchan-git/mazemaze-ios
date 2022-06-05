@@ -20,9 +20,7 @@ class RecommendedViewController: UIViewController {
         collectionView.register(UINib(nibName: "RecommendedPostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "RecommendedPostCollectionViewCell")
         setupNavBar()
         setupViews()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        
         if let userId = AuthManager.userId() {
             loginButton.isHidden = true
             collectionView.isHidden = false
@@ -94,23 +92,54 @@ class RecommendedViewController: UIViewController {
         do {
             async let relatedPosts = PostCRUD.readPostsByArray(where: "selectedTags", containsAnyOf: tags, limit: limit)
             if let relatedPosts = try await relatedPosts {
-                RecommendedPostManager.shared.posts = RecommendedPostManager.shared.posts ?? []
-                let posts = relatedPosts.map { DisplayedPost(post: $0, image: nil) }
-                let alreadyDisplayedPostSenderIds: [String] = RecommendedPostManager.shared.posts?.map { $0.post?.senderId ?? "" } ?? []
-                let filtered = posts.filter { !alreadyDisplayedPostSenderIds.contains($0.post?.senderId ?? "") }
-                RecommendedPostManager.shared.posts?.append(contentsOf: filtered)
+                let safePosts = await filterPosts(relatedPosts: relatedPosts)
+                if let _ = RecommendedPostManager.shared.posts {} else {
+                    RecommendedPostManager.shared.posts = []
+                }
+                RecommendedPostManager.shared.posts?.append(contentsOf: safePosts)
                 collectionView.reloadData()
-                await loadRelatedPostImages(posts: relatedPosts)
+                await loadRelatedPostImages(posts: safePosts)
             }
         } catch {
             print(error)
         }
     }
     
-    func loadRelatedPostImages(posts: [Post]) async {
+    func filterPosts(relatedPosts: [Post]) async -> [DisplayedPost] {
+        let posts = withoutAlreadyDisplayedPosts(relatedPosts: relatedPosts)
+        var safePosts: [DisplayedPost] = []
+        if let blockUserIds = UserManager.shared.blockUserIds {
+            safePosts = withoutBlockUserPosts(posts: posts, blockUserIds: blockUserIds)
+        } else {
+            do {
+                async let user = UserCRUD.getUser(uid: UserManager.shared.id ?? "")
+                if let user = try await user {
+                    UserManager.shared.setBlockUserIds(blockUserIds: user.blockUserIds)
+                    safePosts = withoutBlockUserPosts(posts: posts, blockUserIds: user.blockUserIds)
+                }
+            } catch {
+                print(error)
+            }
+        }
+        return safePosts
+    }
+    
+    func withoutAlreadyDisplayedPosts(relatedPosts: [Post]) -> [DisplayedPost] {
+        let posts = relatedPosts.map { DisplayedPost(post: $0, image: nil) }
+        let alreadyDisplayedPostSenderIds: [String] = (RecommendedPostManager.shared.posts ?? []).map { $0.post?.senderId ?? "" }
+        let filtered = posts.filter { !alreadyDisplayedPostSenderIds.contains($0.post?.senderId ?? "") }
+        return filtered
+    }
+    
+    func withoutBlockUserPosts(posts: [DisplayedPost], blockUserIds: [String]) -> [DisplayedPost] {
+        let filtered = posts.filter { !blockUserIds.contains($0.post?.senderId ?? "") }
+        return filtered
+    }
+    
+    func loadRelatedPostImages(posts: [DisplayedPost]) async {
         for (index, post) in posts.enumerated() {
             do {
-                let image = try await ImageCRUD.readImage(userId: post.senderId ?? "", docId: post.id ?? "")
+                let image = try await ImageCRUD.readImage(userId: post.post?.senderId ?? "", docId: post.post?.id ?? "")
                 RecommendedPostManager.shared.posts?[index].image = image
                 collectionView.reloadData()
             } catch {
@@ -136,6 +165,47 @@ class RecommendedViewController: UIViewController {
         }
     }
     
+    func onBlockUser(blockUserId: String) {
+        let alert = UIAlertController(
+            title: "このユーザーをブロック",
+            message: "このユーザーの投稿はあなたのおすすめに表示されなくなります。",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(
+            title: "ブロック",
+            style: .destructive,
+            handler: { _ in
+                let userId = UserManager.shared.id ?? AuthManager.userId() ?? ""
+                Task {
+                    await self.blockUser(userId: userId, blockUserId: blockUserId)
+                    RecommendedPostManager.shared.posts?.removeAll(where: { $0.post?.senderId == blockUserId })
+                    self.collectionView.reloadData()
+                }
+            }
+        ))
+        alert.addAction(UIAlertAction(
+            title: "キャンセル",
+            style: .cancel,
+            handler: nil
+        ))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func blockUser(userId: String, blockUserId: String) async {
+        do {
+            async let result = UserCRUD.updateUserArray(userId: userId, key: "blockUserIds", unite: [blockUserId])
+            if let _ = try await result {
+                UserManager.shared.addBlockUserId(blockUserId: blockUserId)
+            }
+        } catch {
+            print(error)
+        }
+    }
+
+    func reportPost(docId: String) {
+        //TODO
+    }
+
 }
 
 //CollectionView
@@ -152,7 +222,17 @@ extension RecommendedViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RecommendedPostCollectionViewCell", for: indexPath) as! RecommendedPostCollectionViewCell
         let recommendedPost = RecommendedPostManager.shared.posts?[indexPath.row]
-        cell.setCell(image: recommendedPost?.image ?? UIImage(), title: recommendedPost?.post?.title ?? "", senderName: recommendedPost?.post?.senderName ?? "")
+        let menuItems = { (docId: String, senderId: String) -> [UIAction] in
+            [
+                UIAction(title: "このユーザーをブロック", image: UIImage(systemName: "nosign"), handler: { _ in
+                    self.onBlockUser(blockUserId: senderId)
+                }),
+                UIAction(title: "投稿を報告する", image: UIImage(systemName: "flag"), handler: { _ in
+                    self.reportPost(docId: docId)
+                })
+            ]
+        }
+        cell.setCell(image: recommendedPost?.image ?? UIImage(), title: recommendedPost?.post?.title ?? "", senderName: recommendedPost?.post?.senderName ?? "", menuItems: menuItems, docId: recommendedPost?.post?.id ?? "", senderId: recommendedPost?.post?.senderId ?? "")
         return cell
     }
     

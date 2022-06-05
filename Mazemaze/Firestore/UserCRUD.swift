@@ -50,22 +50,6 @@ class UserCRUD {
         }
     }
     
-    static func addCreatedPostId(userId: String, postId: String) async throws -> ResultType? {
-        try await withCheckedThrowingContinuation { continuation in
-            let db = Firestore.firestore()
-            db.collection("users").document(userId).updateData([
-                "createdPostIds": FieldValue.arrayUnion([postId])
-            ]) { error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    print("Successfully added created post id")
-                    continuation.resume(returning: .success)
-                }
-            }
-        }
-    }
-    
     static func updateUser(userId: String, key: String, value: Any) async throws -> String? {
         try await withCheckedThrowingContinuation { continuation in
             let db = Firestore.firestore()
@@ -77,6 +61,22 @@ class UserCRUD {
                 } else {
                     print("Successfully updated user")
                     continuation.resume(returning: userId)
+                }
+            }
+        }
+    }
+    
+    static func updateUserArray(userId: String, key: String, unite array: [Any]) async throws -> ResultType? {
+        try await withCheckedThrowingContinuation { continuation in
+            let db = Firestore.firestore()
+            db.collection("users").document(userId).updateData([
+                key : FieldValue.arrayUnion(array)
+            ]) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    print("Successfully united array in user")
+                    continuation.resume(returning: .success)
                 }
             }
         }

@@ -64,7 +64,7 @@ class NewPostViewController: UIViewController {
         do {
             async let user = UserCRUD.getUser(uid: userId)
             if let user = try await user {
-                UserManager.shared.setUser(id: user.id, name: user.name)
+                UserManager.shared.setUser(id: user.id, name: user.name, blockUserIds: user.blockUserIds)
                 post.senderName = user.name
             }
         } catch {
@@ -241,7 +241,7 @@ extension NewPostViewController: SubmitButtonCellDelegate {
     
     func addCreatedPostId(userId: String, docId: String) async {
         do {
-            async let result = UserCRUD.addCreatedPostId(userId: userId, postId: docId)
+            async let result = UserCRUD.updateUser(userId: userId, key: "createdPostIds", value: docId)
             if let _ = try await result {
                 MyPostManager.shared.myPosts?.insert(DisplayedPost(post: post, image: selectedImage), at: 0)
             }

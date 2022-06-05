@@ -13,7 +13,9 @@ import GoogleSignIn
 class AuthManager {
     
     static func userId() -> String? {
-        return Auth.auth().currentUser?.uid
+        let userId = Auth.auth().currentUser?.uid
+        UserManager.shared.setUserId(id: userId)
+        return userId
     }
     
     static func signInWithGoogle(viewController: UIViewController, completion: @escaping (String) -> Void) {

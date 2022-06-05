@@ -30,11 +30,11 @@ class LoginViewController: UIViewController {
                     async let user = UserCRUD.getUser(uid: uid)
                     if let user = try await user {
                         //Is returning user, user document exists
-                        UserManager.shared.setUser(id: user.id, name: user.name)
+                        UserManager.shared.setUser(id: user.id, name: user.name, blockUserIds: user.blockUserIds)
                         self.dismiss(animated: true)
                     } else {
                         //Is new user, user document does not exist
-                        UserManager.shared.setUser(id: uid)
+                        UserManager.shared.setUser(id: uid, blockUserIds: [])
                         self.switchToUserNameView()
                     }
                 } catch {
@@ -56,7 +56,7 @@ class LoginViewController: UIViewController {
             do {
                 async let result = UserCRUD.createUser(user: User(id: uid, name: userName))
                 if let _ = try await result {
-                    UserManager.shared.setUser(id: uid, name: userName)
+                    UserManager.shared.setUser(id: uid, name: userName, blockUserIds: [])
                     self.dismiss(animated: true)
                 }
             } catch {

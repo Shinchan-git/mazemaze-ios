@@ -28,7 +28,7 @@ class SettingViewController: UIViewController {
     
     func onSignOutCell() {
         AuthManager.signOut()
-        UserManager.shared.setUser(id: nil, name: nil)
+        UserManager.shared.setUser(id: nil, name: nil, blockUserIds: nil)
         MyPostManager.shared.myPosts = nil
         MyPostManager.shared.myTags = nil
         RecommendedPostManager.shared.posts = nil

@@ -16,16 +16,6 @@ class ProfileSettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UINib(nibName: "SupportingTextTableViewCell", bundle: nil), forCellReuseIdentifier: "SupportingTextTableViewCell")
-        tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "TextFieldTableViewCell")
-        tableView.register(UINib(nibName: "SubmitButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "SubmitButtonTableViewCell")
-        setupNavBar()
-        setupViews()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         if let userId = UserManager.shared.id ?? AuthManager.userId() {
             if let name = UserManager.shared.name {
                 userName = name
@@ -37,13 +27,21 @@ class ProfileSettingViewController: UIViewController {
                 }
             }
         }
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib(nibName: "SupportingTextTableViewCell", bundle: nil), forCellReuseIdentifier: "SupportingTextTableViewCell")
+        tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "TextFieldTableViewCell")
+        tableView.register(UINib(nibName: "SubmitButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "SubmitButtonTableViewCell")
+        setupNavBar()
+        setupViews()
     }
     
     func getUser(userId: String) async {
         do {
             async let user = UserCRUD.getUser(uid: userId)
             if let user = try await user {
-                UserManager.shared.setUser(id: user.id, name: user.name)
+                UserManager.shared.setUser(id: user.id, name: user.name, blockUserIds: user.blockUserIds)
                 userName = user.name
                 tableView.reloadData()
             }
@@ -98,7 +96,7 @@ extension ProfileSettingViewController: SubmitButtonCellDelegate {
         do {
             async let userId = UserCRUD.updateUser(userId: userId, key: "name", value: name)
             if let userId = try await userId {
-                UserManager.shared.setUser(id: userId, name: userName)
+                UserManager.shared.setUserName(name: userName)
             }
         } catch {
             print(error)

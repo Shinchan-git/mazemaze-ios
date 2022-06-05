@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,6 +36,19 @@
                         <color key="textColor" systemColor="secondaryLabelColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ygs-KH-0Sg">
+                        <rect key="frame" x="260" y="4" width="26" height="26"/>
+                        <color key="backgroundColor" systemColor="secondaryLabelColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="26" id="Isk-dY-v7U"/>
+                            <constraint firstAttribute="width" constant="26" id="dQT-bE-RyY"/>
+                        </constraints>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain">
+                            <imageReference key="image" image="flag.fill" catalog="system" symbolScale="small"/>
+                        </buttonConfiguration>
+                    </button>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
@@ -47,11 +61,14 @@
                 <constraint firstItem="fyf-Et-0VO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Lo8-Gs-9vU"/>
                 <constraint firstItem="fyf-Et-0VO" firstAttribute="top" secondItem="hX4-Q9-t5t" secondAttribute="bottom" constant="4" id="kYB-2P-2vK"/>
                 <constraint firstAttribute="trailing" secondItem="eig-ic-uCj" secondAttribute="trailing" id="oDn-15-VXU"/>
+                <constraint firstItem="Ygs-KH-0Sg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="4" id="oax-bJ-ddW"/>
                 <constraint firstAttribute="trailing" secondItem="hX4-Q9-t5t" secondAttribute="trailing" id="yUX-EL-Jge"/>
+                <constraint firstAttribute="trailing" secondItem="Ygs-KH-0Sg" secondAttribute="trailing" constant="4" id="ztL-bJ-TJc"/>
             </constraints>
             <size key="customSize" width="290" height="346"/>
             <connections>
                 <outlet property="bookImageView" destination="eig-ic-uCj" id="A1O-vY-WF1"/>
+                <outlet property="menuButton" destination="Ygs-KH-0Sg" id="rEo-h3-iuO"/>
                 <outlet property="senderNameLabel" destination="fyf-Et-0VO" id="5lV-9C-waw"/>
                 <outlet property="titleLabel" destination="hX4-Q9-t5t" id="sOQ-Gh-kw9"/>
             </connections>
@@ -59,6 +76,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="flag.fill" catalog="system" width="128" height="121"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
