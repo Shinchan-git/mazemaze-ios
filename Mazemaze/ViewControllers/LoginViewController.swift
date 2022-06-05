@@ -103,6 +103,7 @@ extension LoginViewController {
         googleSignInButton.style = .wide
         googleSignInButton.isHidden = false
         userNameStackView.isHidden = true
+        userNameTextField.placeholder = "アカウントの表示名を入力"
         userNameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         userNameTextField.returnKeyType = .done
     }

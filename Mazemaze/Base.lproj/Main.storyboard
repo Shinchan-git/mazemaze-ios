@@ -206,10 +206,10 @@
                         <viewLayoutGuide key="safeArea" id="7Iu-Au-vzE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="UJq-sh-hYE" secondAttribute="bottom" id="0J5-GI-nTy"/>
                             <constraint firstItem="UJq-sh-hYE" firstAttribute="top" secondItem="7Iu-Au-vzE" secondAttribute="top" id="0gH-Fd-FqK"/>
                             <constraint firstItem="UJq-sh-hYE" firstAttribute="leading" secondItem="7Iu-Au-vzE" secondAttribute="leading" id="AIP-1S-U45"/>
                             <constraint firstItem="7Iu-Au-vzE" firstAttribute="trailing" secondItem="UJq-sh-hYE" secondAttribute="trailing" id="B0D-0q-Hvk"/>
-                            <constraint firstItem="7Iu-Au-vzE" firstAttribute="bottom" secondItem="UJq-sh-hYE" secondAttribute="bottom" id="hVM-Da-fPe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ISj-b0-xhU"/>
@@ -238,19 +238,51 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="FsV-by-CLG" firstAttribute="leading" secondItem="kyx-yB-RN2" secondAttribute="leading" id="2uF-Q8-9ZA"/>
+                            <constraint firstAttribute="bottom" secondItem="FsV-by-CLG" secondAttribute="bottom" id="6y7-8C-Ilm"/>
                             <constraint firstItem="kyx-yB-RN2" firstAttribute="trailing" secondItem="FsV-by-CLG" secondAttribute="trailing" id="kyx-Td-kdC"/>
                             <constraint firstItem="FsV-by-CLG" firstAttribute="top" secondItem="kyx-yB-RN2" secondAttribute="top" id="nNJ-Qf-vlX"/>
-                            <constraint firstItem="kyx-yB-RN2" firstAttribute="bottom" secondItem="FsV-by-CLG" secondAttribute="bottom" id="zNK-tu-qs8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2aO-R9-DwU"/>
                     <connections>
                         <outlet property="tableView" destination="FsV-by-CLG" id="uEN-tU-A5n"/>
+                        <segue destination="wUR-GK-WHv" kind="show" identifier="toProfileSettingView" id="DGf-CV-GAG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tYs-TR-z7i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3852.3076923076924" y="1660.6635071090047"/>
+        </scene>
+        <!--Profile Setting View Controller-->
+        <scene sceneID="k09-gB-Giz">
+            <objects>
+                <viewController id="wUR-GK-WHv" customClass="ProfileSettingViewController" customModule="Mazemaze" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BOa-A0-iB1">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ax4-ut-ZTP">
+                                <rect key="frame" x="0.0" y="56" width="390" height="734"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="29P-ZT-j2M"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottomMargin" secondItem="ax4-ut-ZTP" secondAttribute="bottom" id="4jc-NI-lOD"/>
+                            <constraint firstItem="29P-ZT-j2M" firstAttribute="trailing" secondItem="ax4-ut-ZTP" secondAttribute="trailing" id="XtU-SM-1mn"/>
+                            <constraint firstItem="ax4-ut-ZTP" firstAttribute="leading" secondItem="29P-ZT-j2M" secondAttribute="leading" id="hU1-lh-grg"/>
+                            <constraint firstItem="ax4-ut-ZTP" firstAttribute="top" secondItem="29P-ZT-j2M" secondAttribute="top" id="sUn-De-YUQ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="LoX-Bw-Cj3"/>
+                    <connections>
+                        <outlet property="tableView" destination="ax4-ut-ZTP" id="Xbl-lN-Nq2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="26E-mz-ZgT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4814" y="1661"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Czn-wN-CRr">

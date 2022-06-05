@@ -22,6 +22,10 @@ class SettingViewController: UIViewController {
         setupNavBar()
     }
     
+    func toProfileSettingView() {
+        self.performSegue(withIdentifier: "toProfileSettingView", sender: nil)
+    }
+    
     func onSignOutCell() {
         AuthManager.signOut()
         UserManager.shared.setUser(id: nil, name: nil)
@@ -42,16 +46,28 @@ class SettingViewController: UIViewController {
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 1
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TextTableViewCell", for: indexPath) as! TextTableViewCell
+
+        switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TextTableViewCell", for: indexPath) as! TextTableViewCell
+            cell.setCell(text: "プロフィール")
+            cell.accessoryType = .disclosureIndicator
+            return cell
+        case 1:
             cell.setCell(text: "ログアウト", color: .red)
             return cell
         default:
@@ -60,8 +76,11 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
+        tableView.deselectRow(at: indexPath, animated: true)
+        switch indexPath.section {
         case 0:
+            toProfileSettingView()
+        case 1:
             onSignOutCell()
         default:
             print("Cell selected")

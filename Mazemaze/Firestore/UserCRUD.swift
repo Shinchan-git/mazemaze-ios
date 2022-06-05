@@ -66,4 +66,20 @@ class UserCRUD {
         }
     }
     
+    static func updateUser(userId: String, key: String, value: Any) async throws -> String? {
+        try await withCheckedThrowingContinuation { continuation in
+            let db = Firestore.firestore()
+            db.collection("users").document(userId).updateData([
+                key: value
+            ]) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    print("Successfully updated user")
+                    continuation.resume(returning: userId)
+                }
+            }
+        }
+    }
+    
 }
