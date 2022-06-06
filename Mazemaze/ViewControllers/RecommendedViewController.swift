@@ -203,7 +203,7 @@ class RecommendedViewController: UIViewController {
     }
 
     func reportPost(docId: String) {
-        //TODO
+        PostCRUD.reportPost(docId: docId)
     }
 
 }

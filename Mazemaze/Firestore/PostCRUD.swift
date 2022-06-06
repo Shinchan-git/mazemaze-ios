@@ -5,7 +5,7 @@
 //  Created by Owner on 2022/05/31.
 //
 
-import Foundation
+import UIKit
 import Firebase
 
 class PostCRUD {
@@ -88,6 +88,11 @@ class PostCRUD {
                 }
             }
         }
+    }
+    
+    static func reportPost(docId: String) {
+        guard let url = URL(string: "https://docs.google.com/forms/d/e/1FAIpQLSf-27Lc0y3QjqT0njdbRd8LJMc85EWRvNlfwNKqmVz6M7oHNA/viewform?usp=pp_url&entry.1805428934=\(docId)") else { return }
+        UIApplication.shared.open(url)
     }
     
 }
