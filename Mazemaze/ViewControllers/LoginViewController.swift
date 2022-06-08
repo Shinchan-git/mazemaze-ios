@@ -11,6 +11,7 @@ import GoogleSignIn
 class LoginViewController: UIViewController {
     
     @IBOutlet var googleSignInButton: GIDSignInButton!
+    @IBOutlet var signInStackView: UIStackView!
     @IBOutlet var userNameStackView: UIStackView!
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var createAccountButton: UIButton!
@@ -30,10 +31,12 @@ class LoginViewController: UIViewController {
                     async let user = UserCRUD.getUser(uid: uid)
                     if let user = try await user {
                         //Is returning user, user document exists
+                        print("Is returning user, user document exists")
                         UserManager.shared.setUser(id: user.id, name: user.name, blockUserIds: user.blockUserIds)
                         self.dismiss(animated: true)
                     } else {
                         //Is new user, user document does not exist
+                        print("Is new user, user document does not exist")
                         UserManager.shared.setUser(id: uid, blockUserIds: [])
                         self.switchToUserNameView()
                     }
@@ -63,6 +66,10 @@ class LoginViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    @IBAction func onOpenTermsButton() {
+        AuthManager.openTermsAndPrivacy()
     }
     
     @objc func onCancelButton() {
@@ -101,7 +108,7 @@ extension LoginViewController {
     
     func setupViews() {
         googleSignInButton.style = .wide
-        googleSignInButton.isHidden = false
+        signInStackView.isHidden = false
         userNameStackView.isHidden = true
         userNameTextField.placeholder = "アカウントの表示名を入力"
         userNameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
@@ -109,7 +116,7 @@ extension LoginViewController {
     }
     
     func switchToUserNameView() {
-        googleSignInButton.isHidden = true
+        signInStackView.isHidden = true
         userNameStackView.isHidden = false
         createAccountButton.isEnabled = false
     }

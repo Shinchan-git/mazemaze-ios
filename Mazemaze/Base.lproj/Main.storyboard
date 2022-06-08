@@ -54,7 +54,7 @@
                     <navigationItem key="navigationItem" id="iMb-b6-ODq"/>
                     <connections>
                         <outlet property="collectionView" destination="Ga8-eg-eew" id="AeL-vD-waS"/>
-                        <outlet property="loginButton" destination="wIb-7s-knw" id="CrZ-cu-1Uq"/>
+                        <outlet property="loginButton" destination="wIb-7s-knw" id="fKD-SK-8qp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -70,17 +70,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ltj-tm-Zz6" customClass="GIDSignInButton">
-                                <rect key="frame" x="85" y="402" width="220" height="40"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="220" id="evf-VS-7fF"/>
-                                    <constraint firstAttribute="height" constant="40" id="lZo-mi-hsE"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="onGoogleSignInButton" destination="gdH-5f-xtK" eventType="touchUpInside" id="jOZ-fm-heq"/>
-                                </connections>
-                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uG5-EO-k5L">
                                 <rect key="frame" x="0.0" y="148" width="390" height="120"/>
                                 <subviews>
@@ -120,27 +109,68 @@
                                     <constraint firstAttribute="trailing" secondItem="knf-OK-lUy" secondAttribute="trailing" constant="16" id="ycs-LM-afN"/>
                                 </constraints>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="KBY-To-dUE">
+                                <rect key="frame" x="16" y="360.66666666666669" width="358" height="122.66666666666669"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ltj-tm-Zz6" customClass="GIDSignInButton">
+                                        <rect key="frame" x="69" y="0.0" width="220" height="40"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="lZo-mi-hsE"/>
+                                            <constraint firstAttribute="width" constant="220" id="w7S-vg-QPy"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="onGoogleSignInButton" destination="gdH-5f-xtK" eventType="touchUpInside" id="2J3-Tc-aY5"/>
+                                        </connections>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ve-s0-sdb">
+                                        <rect key="frame" x="154" y="42" width="50" height="12"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="12" id="vay-jt-2mv"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="利用規約とプライバシーポリシーに同意した上で利用を開始してください。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZf-wJ-b0e">
+                                        <rect key="frame" x="0.66666666666665719" y="56" width="357" height="33.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gRE-Gt-qHT">
+                                        <rect key="frame" x="117" y="91.666666666666629" width="124" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="内容を確認する"/>
+                                        <connections>
+                                            <action selector="onOpenTermsButton" destination="gdH-5f-xtK" eventType="touchUpInside" id="zVb-ep-Jhi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="REe-az-TaA"/>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="ltj-tm-Zz6" firstAttribute="centerX" secondItem="cnd-QC-D7m" secondAttribute="centerX" id="7zm-S9-rbF"/>
-                            <constraint firstItem="ltj-tm-Zz6" firstAttribute="centerY" secondItem="cnd-QC-D7m" secondAttribute="centerY" id="FpT-KV-2mx"/>
+                            <constraint firstItem="REe-az-TaA" firstAttribute="trailing" secondItem="KBY-To-dUE" secondAttribute="trailing" constant="16" id="LWt-dj-92g"/>
                             <constraint firstItem="uG5-EO-k5L" firstAttribute="top" secondItem="REe-az-TaA" secondAttribute="top" constant="60" id="Pvm-uL-8Bs"/>
                             <constraint firstItem="uG5-EO-k5L" firstAttribute="leading" secondItem="REe-az-TaA" secondAttribute="leading" id="e10-Cr-I84"/>
+                            <constraint firstItem="KBY-To-dUE" firstAttribute="leading" secondItem="REe-az-TaA" secondAttribute="leading" constant="16" id="iBM-3u-bXG"/>
                             <constraint firstItem="REe-az-TaA" firstAttribute="trailing" secondItem="uG5-EO-k5L" secondAttribute="trailing" id="o6f-d8-lU7"/>
+                            <constraint firstItem="KBY-To-dUE" firstAttribute="centerY" secondItem="cnd-QC-D7m" secondAttribute="centerY" id="qAw-Vv-rhw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tPg-fN-S22"/>
                     <connections>
                         <outlet property="createAccountButton" destination="knf-OK-lUy" id="Egr-sa-5Kr"/>
-                        <outlet property="googleSignInButton" destination="ltj-tm-Zz6" id="CQV-ek-G8o"/>
+                        <outlet property="googleSignInButton" destination="ltj-tm-Zz6" id="5zg-8U-nnB"/>
+                        <outlet property="signInStackView" destination="KBY-To-dUE" id="ICX-Ca-7II"/>
                         <outlet property="userNameStackView" destination="uG5-EO-k5L" id="D5S-oe-4Bf"/>
                         <outlet property="userNameTextField" destination="jm1-P7-q4c" id="SeV-B7-noH"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="3851" y="-553"/>
+            <point key="canvasLocation" x="3850.7692307692305" y="-553.08056872037912"/>
         </scene>
         <!--My List View Controller-->
         <scene sceneID="Ubg-Pd-Ojj">
@@ -397,7 +427,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="dZq-Mq-dla"/>
+        <segue reference="PCi-HX-9Oy"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="books.vertical.fill" catalog="system" width="128" height="109"/>

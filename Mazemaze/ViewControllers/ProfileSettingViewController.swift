@@ -95,7 +95,7 @@ extension ProfileSettingViewController: SubmitButtonCellDelegate {
     func updateUserName(userId: String, name: String) async {
         do {
             async let userId = UserCRUD.updateUser(userId: userId, key: "name", value: name)
-            if let userId = try await userId {
+            if let _ = try await userId {
                 UserManager.shared.setUserName(name: userName)
             }
         } catch {

@@ -11,7 +11,7 @@ class RecommendedViewController: UIViewController {
     
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var collectionView: UICollectionView!
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,7 +20,9 @@ class RecommendedViewController: UIViewController {
         collectionView.register(UINib(nibName: "RecommendedPostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "RecommendedPostCollectionViewCell")
         setupNavBar()
         setupViews()
-        
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
         if let userId = AuthManager.userId() {
             loginButton.isHidden = true
             collectionView.isHidden = false
@@ -201,11 +203,11 @@ class RecommendedViewController: UIViewController {
             print(error)
         }
     }
-
+    
     func reportPost(docId: String) {
         PostCRUD.reportPost(docId: docId)
     }
-
+    
 }
 
 //CollectionView

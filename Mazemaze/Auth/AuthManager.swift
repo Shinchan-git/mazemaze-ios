@@ -5,7 +5,7 @@
 //  Created by Owner on 2022/05/22.
 //
 
-import Foundation
+import UIKit
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
@@ -51,6 +51,11 @@ class AuthManager {
         } catch let error as NSError {
             print(error.localizedDescription)
         }
+    }
+    
+    static func openTermsAndPrivacy() {
+        guard let url = URL(string: "https://mazemaze-ios-terms-and-privacy.pages.dev") else { return }
+        UIApplication.shared.open(url)
     }
     
 }
