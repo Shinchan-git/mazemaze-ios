@@ -31,8 +31,14 @@ class SelectionTableViewCell: UITableViewCell {
     func setCell(text: String, isSelected: Bool) {
         label.text = text
         if isSelected {
-            iconImageView.image = UIImage(systemName: "circle.inset.filled")
+            label.textColor = .link
+            if #available(iOS 15.0, *) {
+                iconImageView.image = UIImage(systemName: "circle.inset.filled")
+            } else {
+                iconImageView.image = UIImage(systemName: "circle.fill")
+            }
         } else {
+            label.textColor = .label
             iconImageView.image = UIImage(systemName: "circle")
         }
     }

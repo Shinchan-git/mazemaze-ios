@@ -30,6 +30,13 @@ class SubmitButtonTableViewCell: UITableViewCell {
     func setCell(text: String, isButtonEnabled: Bool) {
         submitButton.setTitle(text, for: .normal)
         submitButton.isEnabled = isButtonEnabled
+        if #available(iOS 15.0, *) {} else {
+            if isButtonEnabled {
+                submitButton.backgroundColor = .link
+            } else {
+                submitButton.backgroundColor = .tertiaryLabel
+            }
+        }
     }
     
     func setIsLoading(text: String) {
@@ -40,7 +47,14 @@ class SubmitButtonTableViewCell: UITableViewCell {
     //UI
     func setupViews() {
         self.selectionStyle = .none
-        submitButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
+        if #available(iOS 15.0, *) {
+            submitButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
+        } else {
+            submitButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20)
+            submitButton.backgroundColor = .tertiaryLabel
+            submitButton.setTitleColor(.white, for: .normal)
+            submitButton.layer.cornerRadius = 6
+        }
     }
     
 }

@@ -153,6 +153,11 @@ extension MyListViewController {
         loginButton.isHidden = true
         tableView.isHidden = true
         tableView.rowHeight = UITableView.automaticDimension
+        if #available(iOS 15.0, *) {} else {
+            loginButton.backgroundColor = .link
+            loginButton.setTitleColor(.white, for: .normal)
+            loginButton.layer.cornerRadius = 6
+        }
     }
     
 }

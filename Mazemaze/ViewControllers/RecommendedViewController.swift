@@ -260,6 +260,11 @@ extension RecommendedViewController {
     func setupViews() {
         loginButton.isHidden = true
         collectionView.isHidden = true
+        if #available(iOS 15.0, *) {} else {
+            loginButton.backgroundColor = .link
+            loginButton.setTitleColor(.white, for: .normal)
+            loginButton.layer.cornerRadius = 6
+        }
     }
     
 }

@@ -26,6 +26,10 @@ class SettingViewController: UIViewController {
         self.performSegue(withIdentifier: "toProfileSettingView", sender: nil)
     }
     
+    func onOpenTermsAndPrivacy() {
+        AuthManager.openTermsAndPrivacy()
+    }
+    
     func onSignOutCell() {
         AuthManager.signOut()
         UserManager.shared.setUser(id: nil, name: nil, blockUserIds: nil)
@@ -46,13 +50,15 @@ class SettingViewController: UIViewController {
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 1
         case 1:
+            return 1
+        case 2:
             return 1
         default:
             return 0
@@ -68,6 +74,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             cell.accessoryType = .disclosureIndicator
             return cell
         case 1:
+            cell.setCell(text: "利用規約とプライバシーポリシー", color: .link)
+            return cell
+        case 2:
             cell.setCell(text: "ログアウト", color: .red)
             return cell
         default:
@@ -81,6 +90,8 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
         case 0:
             toProfileSettingView()
         case 1:
+            onOpenTermsAndPrivacy()
+        case 2:
             onSignOutCell()
         default:
             print("Cell selected")

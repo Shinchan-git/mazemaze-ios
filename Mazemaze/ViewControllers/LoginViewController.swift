@@ -86,8 +86,14 @@ extension LoginViewController: UITextFieldDelegate {
         let text = textField.text ?? ""
         if text.removeBlanks() == "" {
             createAccountButton.isEnabled = false
+            if #available(iOS 15.0, *) {} else {
+                createAccountButton.backgroundColor = .tertiaryLabel
+            }
         } else {
             createAccountButton.isEnabled = true
+            if #available(iOS 15.0, *) {} else {
+                createAccountButton.backgroundColor = .link
+            }
         }
     }
     
@@ -113,6 +119,11 @@ extension LoginViewController {
         userNameTextField.placeholder = "アカウントの表示名を入力"
         userNameTextField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         userNameTextField.returnKeyType = .done
+        if #available(iOS 15.0, *) {} else {
+            createAccountButton.backgroundColor = .tertiaryLabel
+            createAccountButton.layer.cornerRadius = 6
+            createAccountButton.setTitleColor(.white, for: .normal)
+        }
     }
     
     func switchToUserNameView() {
