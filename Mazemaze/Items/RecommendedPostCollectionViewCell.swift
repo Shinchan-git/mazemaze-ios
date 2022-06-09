@@ -26,6 +26,7 @@ class RecommendedPostCollectionViewCell: UICollectionViewCell {
         senderNameLabel.text = senderName
         let menu = UIMenu(title: "", options: .displayInline, children: menuItems(docId, senderId))
         menuButton.menu = menu
+        menuButton.setTitle("", for: .normal)
     }
     
     //UI
