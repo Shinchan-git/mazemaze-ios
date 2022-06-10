@@ -170,7 +170,7 @@ class RecommendedViewController: UIViewController {
     func onBlockUser(blockUserId: String) {
         let alert = UIAlertController(
             title: "このユーザーをブロック",
-            message: "このユーザーの投稿はあなたのおすすめに表示されなくなります。",
+            message: "このユーザーの投稿は今後あなたのおすすめに表示されなくなります。",
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(
