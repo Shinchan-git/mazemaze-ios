@@ -63,6 +63,7 @@
 		EB9AAF0D2839E00B0088D2EB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9AAF0C2839E00B0088D2EB /* LoginViewController.swift */; };
 		EBE2B0D32855EE190015ED5C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = EBE2B0D22855EE190015ED5C /* GoogleSignIn */; };
 		EBE2B0D52855EE190015ED5C /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EBE2B0D42855EE190015ED5C /* GoogleSignInSwift */; };
+		EBE2B0D928566D960015ED5C /* SignInWithAppleIdButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE2B0D828566D960015ED5C /* SignInWithAppleIdButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,8 @@
 		EB9AAF012839D7A60088D2EB /* MyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListViewController.swift; sourceTree = "<group>"; };
 		EB9AAF032839D96E0088D2EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EB9AAF0C2839E00B0088D2EB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		EBE2B0D62856618D0015ED5C /* Mazemaze.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mazemaze.entitlements; sourceTree = "<group>"; };
+		EBE2B0D828566D960015ED5C /* SignInWithAppleIdButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleIdButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,11 +279,13 @@
 		EB9AAEEA2839D1FC0088D2EB /* Mazemaze */ = {
 			isa = PBXGroup;
 			children = (
+				EBE2B0D62856618D0015ED5C /* Mazemaze.entitlements */,
 				EB9AAEEB2839D1FC0088D2EB /* AppDelegate.swift */,
 				EB9AAEED2839D1FC0088D2EB /* SceneDelegate.swift */,
 				EB6AAF9B283A1A0300F4D9AB /* ViewControllers */,
 				EB6AAFB8284325B300F4D9AB /* Cells */,
 				EB6AAFF3284A3DC300F4D9AB /* Items */,
+				EBE2B0D728566D380015ED5C /* CustomUI */,
 				EB6AAFA1283A1FD300F4D9AB /* Auth */,
 				EB6AAFAB283FDAFF00F4D9AB /* Firestore */,
 				EB6AAFE12846FF7200F4D9AB /* Storage */,
@@ -297,6 +302,14 @@
 				EB6AAFA6283A46F600F4D9AB /* .gitignore */,
 			);
 			path = Mazemaze;
+			sourceTree = "<group>";
+		};
+		EBE2B0D728566D380015ED5C /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				EBE2B0D828566D960015ED5C /* SignInWithAppleIdButton.swift */,
+			);
+			path = CustomUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -420,6 +433,7 @@
 				EB6AAFAA283FD74700F4D9AB /* User.swift in Sources */,
 				EB6AAFE528477C2000F4D9AB /* MyPostManager.swift in Sources */,
 				EB9AAF0D2839E00B0088D2EB /* LoginViewController.swift in Sources */,
+				EBE2B0D928566D960015ED5C /* SignInWithAppleIdButton.swift in Sources */,
 				EB6AAFF2284A36DB00F4D9AB /* RecommendedPostManager.swift in Sources */,
 				EB6AAFA5283A279D00F4D9AB /* SettingViewController.swift in Sources */,
 				EB6AAFC72843B2C900F4D9AB /* TextButtonTableViewCell.swift in Sources */,
@@ -573,8 +587,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Mazemaze/Mazemaze.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1.1;
 				DEVELOPMENT_TEAM = 5VXR3TJUR7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mazemaze/Info.plist;
@@ -589,7 +604,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = app.shinchan.shintaro.Mazemaze;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -603,8 +618,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Mazemaze/Mazemaze.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1.1;
 				DEVELOPMENT_TEAM = 5VXR3TJUR7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mazemaze/Info.plist;
@@ -619,7 +635,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = app.shinchan.shintaro.Mazemaze;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -7,6 +7,8 @@
 
 import UIKit
 import GoogleSignIn
+import AuthenticationServices
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
@@ -15,6 +17,8 @@ class LoginViewController: UIViewController {
     @IBOutlet var userNameStackView: UIStackView!
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var createAccountButton: UIButton!
+    
+    var currentNonceForAppleSignIn: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,23 +30,31 @@ class LoginViewController: UIViewController {
     
     @IBAction func onGoogleSignInButton() {
         AuthManager.signInWithGoogle(viewController: self) { uid in
-            Task {
-                do {
-                    async let user = UserCRUD.getUser(uid: uid)
-                    if let user = try await user {
-                        //Is returning user, user document exists
-                        print("Is returning user, user document exists")
-                        UserManager.shared.setUser(id: user.id, name: user.name, blockUserIds: user.blockUserIds)
-                        self.dismiss(animated: true)
-                    } else {
-                        //Is new user, user document does not exist
-                        print("Is new user, user document does not exist")
-                        UserManager.shared.setUser(id: uid, blockUserIds: [])
-                        self.switchToUserNameView()
-                    }
-                } catch {
-                    print(error)
+            self.handleLoginCompleted(uid: uid)
+        }
+    }
+    
+    @IBAction func onAppleSignInButton() {
+        currentNonceForAppleSignIn = AuthManager.signInWithApple(viewController: self)
+    }
+    
+    func handleLoginCompleted(uid: String) {
+        Task {
+            do {
+                async let user = UserCRUD.getUser(uid: uid)
+                if let user = try await user {
+                    //Is returning user, user document exists
+                    print("Is returning user, user document exists")
+                    UserManager.shared.setUser(id: user.id, name: user.name, blockUserIds: user.blockUserIds)
+                    self.dismiss(animated: true)
+                } else {
+                    //Is new user, user document does not exist
+                    print("Is new user, user document does not exist")
+                    UserManager.shared.setUser(id: uid, blockUserIds: [])
+                    self.switchToUserNameView()
                 }
+            } catch {
+                print(error)
             }
         }
     }
@@ -78,6 +90,22 @@ class LoginViewController: UIViewController {
     }
     
 }
+
+//SignInWithApple
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        AuthManager.appleSignInController(authorization: authorization, currentNonce: currentNonceForAppleSignIn) { uid in
+            self.handleLoginCompleted(uid: uid)
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Sign in with Apple errored: \(error)")
+    }
+
+}
+
 
 //TextField
 extension LoginViewController: UITextFieldDelegate {
@@ -131,4 +159,6 @@ extension LoginViewController {
         userNameStackView.isHidden = false
         createAccountButton.isEnabled = false
     }
+    
+   
 }
